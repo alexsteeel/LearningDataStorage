@@ -8,7 +8,7 @@ namespace LearningDataStorage
     /// Фотография.
     /// </summary>
     [Table("Photo", Schema = "file")]
-    public class Photo
+    public class Photo : IPhoto
     {
         [Key]
         [Column("stream_id")]
@@ -61,5 +61,8 @@ namespace LearningDataStorage
         [Column("is_temporary")]
         public bool IsTemporary { get; set; }
 
+        public int ObjectWithPhotoId { get; set; }
+
+        public IHasPhoto<IPhoto> ObjectWithPhoto { get; set; }
     }
 }
