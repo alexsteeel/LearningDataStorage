@@ -5,7 +5,7 @@ namespace LearningDataStorage
     /// <summary>
     /// Цитата.
     /// </summary>
-    public class Quote
+    public class Quote : IQuote
     {
         public int Id { get; set; }
 
@@ -18,6 +18,16 @@ namespace LearningDataStorage
         /// Текст цитаты.
         /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        /// Id цитируемого объекта.
+        /// </summary>
+        public int QuotedObjectId { get; set; }
+
+        /// <summary>
+        /// Цитируемый объект.
+        /// </summary>
+        public virtual IHasQuotes QuotedObject { get; set; }
 
         /// <summary>
         /// Заметки.
