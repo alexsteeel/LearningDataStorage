@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDataStorage
 {
     /// <summary>
     /// Язык.
     /// </summary>
+    [Table("Languages", Schema = "srv")]
     public class Language
     {
         [Key]

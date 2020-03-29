@@ -7,10 +7,49 @@ namespace LearningDataStorage
 {
     public class ApplicationContext : DbContext
     {
+        #region DbSets
+
+        /// <summary>
+        /// Авторы.
+        /// </summary>
         public DbSet<Author> Authors { get; set; }
+        
+        /// <summary>
+        /// Книги.
+        /// </summary>
         public DbSet<Book> Books { get; set; }
+
+        /// <summary>
+        /// Издательства.
+        /// </summary>
+        public DbSet<PublishingHouse> PublishingHouses { get; set; }
+
+        /// <summary>
+        /// Заметки.
+        /// </summary>
         public DbSet<Note> Notes { get; set; }
+
+        /// <summary>
+        /// Цитаты.
+        /// </summary>
         public DbSet<Quote> Quotes { get; set; }
+
+        /// <summary>
+        /// Страны.
+        /// </summary>
+        public DbSet<Country> Countries { get; set; }
+
+        /// <summary>
+        /// Города.
+        /// </summary>
+        public DbSet<City> Cities { get; set; }
+
+        /// <summary>
+        /// Языки.
+        /// </summary>
+        public DbSet<Language> Languages { get; set; }
+
+        #endregion DbSets
 
         public ApplicationContext()
         {
