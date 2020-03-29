@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDataStorage
 {
     /// <summary>
     /// Цитата.
     /// </summary>
+    [Table("Quote", Schema = "dt")]
     public class Quote : IQuote
     {
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -22,12 +26,13 @@ namespace LearningDataStorage
         /// <summary>
         /// Id цитируемого объекта.
         /// </summary>
+        [Required]
         public int QuotedObjectId { get; set; }
 
         /// <summary>
         /// Цитируемый объект.
         /// </summary>
-        public virtual IHasQuotes QuotedObject { get; set; }
+        public virtual IHasQuotes<IQuote> QuotedObject { get; set; }
 
         /// <summary>
         /// Заметки.

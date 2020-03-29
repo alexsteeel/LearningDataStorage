@@ -15,7 +15,7 @@
         /// <summary>
         /// Цитируемый объект.
         /// </summary>
-        IHasQuotes QuotedObject { get; set; }
+        IHasQuotes<IQuote> QuotedObject { get; set; }
 
         /// <summary>
         /// Текст цитаты.
