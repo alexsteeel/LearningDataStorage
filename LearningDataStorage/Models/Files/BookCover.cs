@@ -4,8 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDataStorage
 {
-    [Table("photo", Schema = "file")]
-    public class Photo
+    /// <summary>
+    /// Обложка книги.
+    /// </summary>
+    [Table("BookCovers", Schema = "file")]
+    public class BookCover
     {
         [Key]
         [Column("stream_id")]

@@ -3,9 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDataStorage
-namespace LearningDataStorage
 {
-    [Table("photo", Schema = "file")]
+    /// <summary>
+    /// Фотография.
+    /// </summary>
+    [Table("Photo", Schema = "file")]
     public class Photo
     {
         [Key]
