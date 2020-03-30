@@ -10,7 +10,7 @@ namespace LearningDataStorage
     /// Издание книги.
     /// </summary>
     [Table("BookEditions", Schema = "dt")]
-    public class BookEdition : IHasQuotes<Quote>
+    public class BookEdition : IHasQuotes<BookQuote>
     {
         [Key]
         public int Id { get; set; }
@@ -23,12 +23,13 @@ namespace LearningDataStorage
         /// <summary>
         /// Заглавие (здесь в отличие от самой книги может быть переведенный вариант).
         /// </summary>
+        [Required]
+        [MaxLength(500)]
         public string Title { get; set; }
 
         /// <summary>
         /// Id языка.
         /// </summary>
-        [Required]
         public int LanguageId { get; set; }
 
         /// <summary>
@@ -90,6 +91,8 @@ namespace LearningDataStorage
         /// Международный стандартный номер книги.
         /// International Standard Book Number.
         /// </summary>
+        [Required]
+        [MaxLength(13)]
         public string ISBN
         {
             get { return _ISBN; }
@@ -103,7 +106,7 @@ namespace LearningDataStorage
                 }
                 else
                 {
-                    throw new FormatException("Указанный стандартный номер книги не соответствует шаблону.");
+                    throw new FormatException("Указанный международный номер книги не соответствует шаблону.");
                 }
             }
         }
@@ -111,7 +114,7 @@ namespace LearningDataStorage
         /// <summary>
         /// Цитаты.
         /// </summary>
-        public ICollection<Quote> Quotes { get; set; }
+        public ICollection<BookQuote> Quotes { get; set; }
 
         /// <summary>
         /// Заметки.

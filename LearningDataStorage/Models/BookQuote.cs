@@ -7,16 +7,16 @@ namespace LearningDataStorage
     /// <summary>
     /// Цитата.
     /// </summary>
-    [Table("Quote", Schema = "dt")]
-    public class Quote : IQuote
+    [Table("BookQuotes", Schema = "dt")]
+    public class BookQuote : IQuote
     {
         [Key]
         public int Id { get; set; }
 
         /// <summary>
-        /// Страница.
+        /// Номер страницы.
         /// </summary>
-        public int Page { get; set; }
+        public int PageNumber { get; set; }
 
         /// <summary>
         /// Текст цитаты.
@@ -26,7 +26,6 @@ namespace LearningDataStorage
         /// <summary>
         /// Id цитируемого объекта.
         /// </summary>
-        [Required]
         public int QuotedObjectId { get; set; }
 
         /// <summary>

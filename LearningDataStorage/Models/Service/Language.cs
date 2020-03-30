@@ -15,11 +15,13 @@ namespace LearningDataStorage
         /// <summary>
         /// Наименование.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// Код языка по ISO 639.
         /// </summary>
+        [Required]
         [MaxLength(3)]
         public string Code { get; set; }
     }

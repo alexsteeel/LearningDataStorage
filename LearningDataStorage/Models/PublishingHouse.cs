@@ -13,6 +13,8 @@ namespace LearningDataStorage
         /// <summary>
         /// Наименование.
         /// </summary>
+        [Required]
+        [MaxLength(500)]
         public string Title { get; set; }
     }
 }

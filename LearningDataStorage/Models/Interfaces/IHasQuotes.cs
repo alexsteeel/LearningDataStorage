@@ -12,6 +12,6 @@ namespace LearningDataStorage
         /// <summary>
         /// Цитаты.
         /// </summary>
-        ICollection<Quote> Quotes { get; set; }
+        ICollection<BookQuote> Quotes { get; set; }
     }
 }

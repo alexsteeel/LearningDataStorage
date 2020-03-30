@@ -32,7 +32,7 @@ namespace LearningDataStorage
         /// <summary>
         /// Цитаты.
         /// </summary>
-        public DbSet<Quote> Quotes { get; set; }
+        public DbSet<BookQuote> Quotes { get; set; }
 
         /// <summary>
         /// Страны.

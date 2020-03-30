@@ -15,6 +15,8 @@ namespace LearningDataStorage
         /// <summary>
         /// Название.
         /// </summary>
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         /// <summary>

@@ -19,6 +19,7 @@ namespace LearningDataStorage
         /// Для хранения информации о других изданиях используется класс BookEdition.
         /// </summary>
         [Required]
+        [MaxLength(500)]
         public string Title { get; set; }
 
         /// <summary>

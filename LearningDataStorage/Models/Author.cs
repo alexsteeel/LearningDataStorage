@@ -23,8 +23,8 @@ namespace LearningDataStorage
         /// <summary>
         /// Имя.
         /// </summary>
-        [MaxLength(100)]
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         /// <summary>
