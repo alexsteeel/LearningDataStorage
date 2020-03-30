@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDataStorage
 {
     /// <summary>
     /// Издательство.
     /// </summary>
+    [Table("PublishingHouses", Schema = "dt")]
     public class PublishingHouse
     {
         [Key]

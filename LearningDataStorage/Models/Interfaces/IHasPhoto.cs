@@ -7,8 +7,6 @@ namespace LearningDataStorage
     /// </summary>
     public interface IHasPhoto<IPhoto>
     {
-        public int Id { get; set; }
-
         /// <summary>
         /// Фотографии.
         /// </summary>

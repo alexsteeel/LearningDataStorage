@@ -8,7 +8,7 @@ namespace LearningDataStorage
     /// Автор.
     /// </summary>
     [Table("Authors", Schema = "dt")]
-    public class Author : IHasPhoto<Photo>
+    public class Author : IHasPhoto<AuthorPhoto>
     {
         [Key]
         public int Id { get; set; }
@@ -36,7 +36,7 @@ namespace LearningDataStorage
         /// <summary>
         /// Фотографии.
         /// </summary>
-        public ICollection<Photo> Photo { get; set; }
+        public ICollection<AuthorPhoto> Photo { get; set; }
 
         /// <summary>
         /// Биография.

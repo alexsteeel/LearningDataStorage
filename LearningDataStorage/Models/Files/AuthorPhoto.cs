@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LearningDataStorage
 {
     /// <summary>
-    /// Фотография.
+    /// Фотография автора.
     /// </summary>
-    [Table("Photo", Schema = "file")]
-    public class Photo : IPhoto
+    [Table("AuthorPhoto", Schema = "file")]
+    public class AuthorPhoto : IPhoto
     {
         [Key]
         [Column("stream_id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid StreamId { get; set; }
 
         [Column("file_stream")]
@@ -61,8 +61,14 @@ namespace LearningDataStorage
         [Column("is_temporary")]
         public bool IsTemporary { get; set; }
 
-        public int ObjectWithPhotoId { get; set; }
+        /// <summary>
+        /// Id автора.
+        /// </summary>
+        public int AuthorId { get; set; }
 
-        public IHasPhoto<IPhoto> ObjectWithPhoto { get; set; }
+        /// <summary>
+        /// Автор.
+        /// </summary>
+        public virtual Author Author { get; set; }
     }
 }

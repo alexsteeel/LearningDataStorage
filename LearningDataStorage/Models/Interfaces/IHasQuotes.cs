@@ -7,11 +7,9 @@ namespace LearningDataStorage
     /// </summary>
     public interface IHasQuotes<IQuote>
     {
-        public int Id { get; set; }
-
         /// <summary>
         /// Цитаты.
         /// </summary>
-        ICollection<BookQuote> Quotes { get; set; }
+        ICollection<IQuote> Quotes { get; set; }
     }
 }

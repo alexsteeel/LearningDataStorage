@@ -12,7 +12,7 @@ namespace LearningDataStorage
     {
         [Key]
         [Column("stream_id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid StreamId { get; set; }
 
         [Column("file_stream")]

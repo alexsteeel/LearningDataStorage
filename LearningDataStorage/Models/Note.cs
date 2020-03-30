@@ -14,11 +14,6 @@ namespace LearningDataStorage
         public int Id { get; set; }
 
         /// <summary>
-        /// Дата создания/изменения.
-        /// </summary>
-        public DateTime ChangeDate { get; set; }
-
-        /// <summary>
         /// Текст заметки.
         /// </summary>
         public string Text { get; set; }
