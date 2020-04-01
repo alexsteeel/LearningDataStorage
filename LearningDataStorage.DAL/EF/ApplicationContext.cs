@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using System.IO;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     public class ApplicationContext : DbContext
     {
@@ -49,11 +48,16 @@ namespace LearningDataStorage
         /// </summary>
         public DbSet<Language> Languages { get; set; }
 
+        /// <summary>
+        /// Файлы.
+        /// </summary>
+        public DbSet<FileDescription> FileDescriptions { get; set; }
+
         #endregion DbSets
 
         public ApplicationContext()
         {
-            Database.EnsureCreated();
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

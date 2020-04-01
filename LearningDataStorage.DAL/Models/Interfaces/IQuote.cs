@@ -1,4 +1,4 @@
-﻿namespace LearningDataStorage
+﻿namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Цитата.

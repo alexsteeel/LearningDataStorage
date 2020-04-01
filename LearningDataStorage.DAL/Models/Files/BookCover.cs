@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Обложка книги.
@@ -11,8 +11,13 @@ namespace LearningDataStorage
     public class BookCover
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid StreamId { get; set; }
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Id файла.
+        /// </summary>
+        [Required]
+        public int FileId { get; set; }
 
         /// <summary>
         /// Id издания книги.

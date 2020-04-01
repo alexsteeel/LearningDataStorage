@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Фотография автора.
@@ -10,12 +10,13 @@ namespace LearningDataStorage
     [Table("AuthorPhoto", Schema = "file")]
     public class AuthorPhoto : IPhoto
     {
-        /// <summary>
-        /// Guid файла из файловой таблицы.
-        /// </summary>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid StreamId { get; set; }
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Id файла.
+        /// </summary>
+        public int FileId { get; set; }
 
         /// <summary>
         /// Id автора.

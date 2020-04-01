@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Объект, у которого есть фотографии.

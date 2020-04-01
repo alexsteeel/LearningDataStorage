@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Цитата из книги.

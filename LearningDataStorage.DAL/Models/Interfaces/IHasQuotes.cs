@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Текст, видео, статья или другой объект, который можно процитировать.

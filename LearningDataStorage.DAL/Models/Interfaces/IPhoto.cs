@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace LearningDataStorage
+namespace LearningDataStorage.DAL
 {
     /// <summary>
     /// Фотография.
     /// </summary>
     public interface IPhoto
     {
-        Guid StreamId { get; set; }
 
     }
 }
