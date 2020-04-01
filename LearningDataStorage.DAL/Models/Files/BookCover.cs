@@ -10,6 +10,12 @@ namespace LearningDataStorage.DAL
     [Table("BookCovers", Schema = "file")]
     public class BookCover
     {
+        public BookCover(int fileId, int bookEditionId)
+        {
+            FileId = fileId;
+            BookEditionId = bookEditionId;
+        }
+
         [Key]
         public int Id { get; set; }
 

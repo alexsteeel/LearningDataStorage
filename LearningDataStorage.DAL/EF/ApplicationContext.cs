@@ -49,6 +49,16 @@ namespace LearningDataStorage.DAL
         public DbSet<Language> Languages { get; set; }
 
         /// <summary>
+        /// Обложки книг.
+        /// </summary>
+        public DbSet<BookCover> BookCovers { get; set; }
+
+        /// <summary>
+        /// Фотографии авторов.
+        /// </summary>
+        public DbSet<AuthorPhoto> AuthorPhoto { get; set; }
+
+        /// <summary>
         /// Файлы.
         /// </summary>
         public DbSet<FileDescription> FileDescriptions { get; set; }
