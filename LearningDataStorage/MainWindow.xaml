@@ -16,10 +16,13 @@
         Title="Learning data system"
         Height="450"
         Width="800">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:BookViewModel}">
+            <local:BookView />
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <materialDesign:Card Padding="32" Margin="50">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">Welcome</TextBlock>
-        </materialDesign:Card>
+        <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
 </Window>
     
