@@ -10,9 +10,6 @@ namespace LearningDataStorage
         public BookView()
         {
             InitializeComponent();
-
-            var vm = new BookViewModel();
-            DataContext = vm;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using LearningDataStorage.DAL;
-using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace LearningDataStorage
             {
                 Books = ctx.Books.ToList();
             }
-        }       
+        }
 
         /// <summary>
         /// Книги.

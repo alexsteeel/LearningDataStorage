@@ -13,16 +13,87 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Learning data system"
-        Height="450"
-        Width="800">
-    <Window.Resources>
-        <DataTemplate DataType="{x:Type local:BookViewModel}">
-            <local:BookView />
-        </DataTemplate>
-    </Window.Resources>
-    <Grid>
-        <ContentControl Content="{Binding CurrentViewModel}" />
-    </Grid>
-</Window>
+        Title="Learning Data Storage"
+        WindowStartupLocation="CenterScreen"
+        Height="800"
+        Width="1100">
     
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <DataTemplate DataType="{x:Type local:BookViewModel}">
+                <local:BookView />
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <materialDesign:DialogHost Identifier="RootDialog"
+                                   SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+            <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <DockPanel MinWidth="220">
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Right" 
+                                      Margin="16"
+                                      IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+
+                        <ListBox Margin="0 16 0 16"
+                                 SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                                 ItemsSource="{Binding Items}">
+                            
+                            <ListBox.Resources>
+                                <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}"/>
+                            </ListBox.Resources>
+                            
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="domain:MenuItem">
+                                    <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            
+                        </ListBox>
+                    </DockPanel>
+                </materialDesign:DrawerHost.LeftDrawerContent>
+                
+                <DockPanel>
+                    <materialDesign:ColorZone Padding="16"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                              Mode="PrimaryMid"
+                                              DockPanel.Dock="Top">
+                        <DockPanel>
+                            <ToggleButton x:Name="MenuToggleButton"
+                                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                          IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"/>
+                            
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       Text="{Binding SelectedItem.Name}"/>
+                        </DockPanel>
+                    </materialDesign:ColorZone>
+                    <Grid>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="{Binding SelectedItem.HorizontalScrollBarVisibilityRequirement}"
+                                      VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement}" 
+                                      Padding="{Binding SelectedItem.MarginRequirement}">
+                            
+                            <ContentControl Content="{Binding SelectedItem.ViewModel, UpdateSourceTrigger=PropertyChanged}" />
+                        
+                        </ScrollViewer>
+
+                        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                                                 x:Name="MainSnackbar" />
+                    </Grid>
+                </DockPanel>
+            </materialDesign:DrawerHost>
+        </materialDesign:DialogHost>
+    </Grid>
+</Window>    

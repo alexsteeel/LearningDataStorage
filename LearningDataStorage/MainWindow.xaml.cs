@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MaterialDesignThemes.Wpf;
+using System.Windows;
 
 namespace LearningDataStorage
 {
@@ -7,12 +8,16 @@ namespace LearningDataStorage
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Snackbar Snackbar;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            var vm = new MainViewModel();
+            var vm = new MainViewModel(MainSnackbar.MessageQueue);
             DataContext = vm;
+
+            Snackbar = this.MainSnackbar;
         }
     }
 }
