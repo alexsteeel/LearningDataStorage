@@ -1,5 +1,6 @@
 ﻿using LearningDataStorage.DAL;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,15 +19,30 @@ namespace LearningDataStorage
         /// </summary>
         public List<Book> Books { get; set; }
 
+        public bool IsEnabled { get; set; }
+
         public async void Init()
         {
-            await Task.Run(() =>
+            IsEnabled = false;
+
+            try
             {
-                using (ApplicationContext ctx = new ApplicationContext())
+                await Task.Run(() =>
                 {
-                    Books = ctx.Books.ToList();
-                }
-            });            
+                    using (ApplicationContext ctx = new ApplicationContext())
+                    {
+                        Books = ctx.Books.ToList();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                IsEnabled = true;
+            }                        
         }
     }
 }
