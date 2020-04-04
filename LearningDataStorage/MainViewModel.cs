@@ -3,6 +3,8 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 
 namespace LearningDataStorage
 {
@@ -10,8 +12,14 @@ namespace LearningDataStorage
     {
         public MainViewModel(ISnackbarMessageQueue snackbarMessageQueue)
         {
-            Items = GenerateMenuItems(snackbarMessageQueue);
+            Localization = Application.Current.Resources.MergedDictionaries
+               .Where(x => x.Source.OriginalString.Contains("Localizations/lang"))
+               .FirstOrDefault();
+
+            Items = GenerateMenuItems(snackbarMessageQueue);           
         }
+
+        public ResourceDictionary Localization { get; set; }
 
         public ObservableCollection<MenuItem> Items { get; set; }
 
@@ -41,7 +49,7 @@ namespace LearningDataStorage
 
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem("Books", new BookViewModel())
+                new MenuItem(Localization["m_Sc_Books"].ToString(), new BookViewModel())
             };
         }
 

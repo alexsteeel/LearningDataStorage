@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace LearningDataStorage
@@ -31,14 +32,14 @@ namespace LearningDataStorage
         {
             get
             {
-                return System.Threading.Thread.CurrentThread.CurrentUICulture;
+                return Thread.CurrentThread.CurrentUICulture;
             }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
-                if (value == System.Threading.Thread.CurrentThread.CurrentUICulture) return;
+                if (value == Thread.CurrentThread.CurrentUICulture) return;
 
-                System.Threading.Thread.CurrentThread.CurrentUICulture = value;
+                Thread.CurrentThread.CurrentUICulture = value;
 
                 ResourceDictionary dict = new ResourceDictionary();
                 switch (value.Name)
