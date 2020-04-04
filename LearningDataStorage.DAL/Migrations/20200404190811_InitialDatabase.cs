@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningDataStorage.DAL.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,11 +40,26 @@ namespace LearningDataStorage.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 500, nullable: false)
+                    Title = table.Column<string>(maxLength: 500, nullable: false),
+                    ShortDescription = table.Column<string>(maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Links",
+                schema: "dt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Path = table.Column<string>(maxLength: 1000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Links", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,6 +131,29 @@ namespace LearningDataStorage.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sites",
+                schema: "dt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    MainPageLinkId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sites_Links_MainPageLinkId",
+                        column: x => x.MainPageLinkId,
+                        principalSchema: "dt",
+                        principalTable: "Links",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 schema: "srv",
                 columns: table => new
@@ -155,6 +193,37 @@ namespace LearningDataStorage.DAL.Migrations
                         column: x => x.AuthorId,
                         principalSchema: "dt",
                         principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookRatings",
+                schema: "dt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SiteId = table.Column<int>(nullable: false),
+                    MaxValue = table.Column<decimal>(nullable: false),
+                    Value = table.Column<decimal>(nullable: false),
+                    BookId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookRatings_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "dt",
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BookRatings_Sites_SiteId",
+                        column: x => x.SiteId,
+                        principalSchema: "dt",
+                        principalTable: "Sites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -283,10 +352,28 @@ namespace LearningDataStorage.DAL.Migrations
                 column: "PublishingHouseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookRatings_BookId",
+                schema: "dt",
+                table: "BookRatings",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookRatings_SiteId",
+                schema: "dt",
+                table: "BookRatings",
+                column: "SiteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notes_BookEditionId",
                 schema: "dt",
                 table: "Notes",
                 column: "BookEditionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sites_MainPageLinkId",
+                schema: "dt",
+                table: "Sites",
+                column: "MainPageLinkId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuthorPhoto_AuthorId",
@@ -310,7 +397,7 @@ namespace LearningDataStorage.DAL.Migrations
            migrationBuilder.Sql(
            @"
                 ALTER DATABASE LDS  
-                    SET FILESTREAM ( NON_TRANSACTED_ACCESS = FULL, DIRECTORY_NAME = N'FilesStore' );  
+                SET FILESTREAM ( NON_TRANSACTED_ACCESS = FULL, DIRECTORY_NAME = N'FilesStore' );  
                 GO  
 
                 ALTER DATABASE LDS
@@ -346,6 +433,10 @@ namespace LearningDataStorage.DAL.Migrations
                 name: "FileDescriptions");
 
             migrationBuilder.DropTable(
+                name: "BookRatings",
+                schema: "dt");
+
+            migrationBuilder.DropTable(
                 name: "Notes",
                 schema: "dt");
 
@@ -358,11 +449,19 @@ namespace LearningDataStorage.DAL.Migrations
                 schema: "file");
 
             migrationBuilder.DropTable(
+                name: "Sites",
+                schema: "dt");
+
+            migrationBuilder.DropTable(
                 name: "Authors",
                 schema: "dt");
 
             migrationBuilder.DropTable(
                 name: "BookEditions",
+                schema: "dt");
+
+            migrationBuilder.DropTable(
+                name: "Links",
                 schema: "dt");
 
             migrationBuilder.DropTable(

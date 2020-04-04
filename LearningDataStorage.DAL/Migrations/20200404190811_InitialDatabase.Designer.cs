@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningDataStorage.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200401185742_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200404190811_InitialDatabase")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,6 +81,11 @@ namespace LearningDataStorage.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -159,6 +164,34 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasIndex("PublishingHouseId");
 
                     b.ToTable("BookEditions","dt");
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.BookRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MaxValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SiteId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("SiteId");
+
+                    b.ToTable("BookRatings","dt");
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.City", b =>
@@ -249,6 +282,23 @@ namespace LearningDataStorage.DAL.Migrations
                     b.ToTable("Languages","srv");
                 });
 
+            modelBuilder.Entity("LearningDataStorage.DAL.Link", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Links","dt");
+                });
+
             modelBuilder.Entity("LearningDataStorage.DAL.Note", b =>
                 {
                     b.Property<int>("Id")
@@ -284,6 +334,31 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PublishingHouses","dt");
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.Site", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MainPageLinkId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MainPageLinkId");
+
+                    b.ToTable("Sites","dt");
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.Author", b =>
@@ -336,6 +411,19 @@ namespace LearningDataStorage.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LearningDataStorage.DAL.BookRating", b =>
+                {
+                    b.HasOne("LearningDataStorage.DAL.Book", null)
+                        .WithMany("BookRatings")
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("LearningDataStorage.DAL.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LearningDataStorage.DAL.City", b =>
                 {
                     b.HasOne("LearningDataStorage.DAL.Country", "Country")
@@ -348,8 +436,17 @@ namespace LearningDataStorage.DAL.Migrations
             modelBuilder.Entity("LearningDataStorage.DAL.Note", b =>
                 {
                     b.HasOne("LearningDataStorage.DAL.BookEdition", null)
-                        .WithMany("Nptes")
+                        .WithMany("Notes")
                         .HasForeignKey("BookEditionId");
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.Site", b =>
+                {
+                    b.HasOne("LearningDataStorage.DAL.Link", "MainPageLink")
+                        .WithMany()
+                        .HasForeignKey("MainPageLinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

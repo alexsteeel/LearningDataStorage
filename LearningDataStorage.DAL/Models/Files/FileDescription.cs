@@ -9,7 +9,6 @@ namespace LearningDataStorage.DAL
     public class FileDescription
     {
         [Key]
-        [Required]
         public int Id { get; set; }
 
         /// <summary>

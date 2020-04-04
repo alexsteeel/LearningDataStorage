@@ -119,6 +119,6 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Заметки.
         /// </summary>
-        public ICollection<Note> Nptes { get; set; }
+        public ICollection<Note> Notes { get; set; }
     }
 }

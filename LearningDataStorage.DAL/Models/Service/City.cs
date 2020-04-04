@@ -9,6 +9,15 @@ namespace LearningDataStorage.DAL
     [Table("Cities", Schema = "srv")]
     public class City
     {
+        public City(string name, int countryId)
+        {
+            Name = name;
+            CountryId = countryId;
+        }
+
+        /// <summary>
+        /// Идентификатор города.
+        /// </summary>
         [Key]
         public int Id { get; set; }
 

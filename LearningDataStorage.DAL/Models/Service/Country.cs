@@ -10,11 +10,15 @@ namespace LearningDataStorage.DAL
     [Table("Countries", Schema = "srv")]
     public class Country
     {
-        public Country()
+        public Country(string name)
         {
+            Name = name;
             Cities = new List<City>();
         }
 
+        /// <summary>
+        /// Идентификатор страны.
+        /// </summary>
         [Key]
         public int Id { get; set; }
 

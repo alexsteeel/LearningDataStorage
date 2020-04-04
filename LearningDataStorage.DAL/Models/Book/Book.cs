@@ -23,6 +23,13 @@ namespace LearningDataStorage.DAL
         public string Title { get; set; }
 
         /// <summary>
+        /// Краткое описание.
+        /// </summary>
+        [Required]
+        [MaxLength(1000)]
+        public string ShortDescription { get; set; }
+
+        /// <summary>
         /// Авторы.
         /// </summary>
         public ICollection<Author> Authors { get; set; }
@@ -31,5 +38,11 @@ namespace LearningDataStorage.DAL
         /// Издания.
         /// </summary>
         public ICollection<BookEdition> BookEditions { get; set; }
+
+        /// <summary>
+        /// Оценки книги.
+        /// </summary>
+        public ICollection<BookRating> BookRatings { get; set; }
+
     }
 }
