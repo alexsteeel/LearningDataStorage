@@ -21,6 +21,8 @@ namespace LearningDataStorage
             get => _selectedItem;
             set
             {
+                IsChecked = false;
+
                 if (value == null || value.Equals(_selectedItem))
                 {
                     return;
@@ -28,7 +30,7 @@ namespace LearningDataStorage
 
                 _selectedItem = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
-                IsChecked = false;
+                SelectedItem.Init();
             }
         }
 
