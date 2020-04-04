@@ -15,7 +15,7 @@
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"
-                        IsItemsHost="True"/>
+                               IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 
@@ -31,39 +31,39 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Image Source="Resources/Contact.png"
-                                Height="140"
-                                Stretch="UniformToFill" />
+                                       Height="140"
+                                       Stretch="UniformToFill" />
                                 <Button Grid.Row="0"
-                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                Margin="0 0 16 -20">
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 16 -20">
                                     <materialDesign:PackIcon Kind="BookOpenPageVariant" />
                                 </Button>
                                 <StackPanel Grid.Row="1"
-                                    Margin="8 24 8 4">
+                                            Margin="8 24 8 4">
 
                                     <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                        Margin="0"
-                                        Text="{Binding Author}"/>
+                                               Margin="0"
+                                               Text="{Binding Author}"/>
 
                                     <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                        Margin="0"
-                                        Text="{Binding Title}"/>
+                                               Margin="0"
+                                               Text="{Binding Title}"/>
 
                                     <Viewbox Margin="0 4 0 8"
-                                        Height="16"
-                                        HorizontalAlignment="Left">
+                                             Height="16"
+                                             HorizontalAlignment="Left">
                                         <materialDesign:RatingBar Value="3"
-                                                            Orientation="Horizontal"
-                                                            Foreground="Gold"
-                                                            Margin="0" />
+                                                                  Orientation="Horizontal"
+                                                                  Foreground="Gold"
+                                                                  Margin="0" />
                                     </Viewbox>
 
                                     <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                        TextWrapping="Wrap"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding ShortDescription}"/>
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding ShortDescription}"/>
                                 </StackPanel>
 
                                 <Grid Grid.Row="2">
@@ -73,16 +73,16 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button Grid.Column="0"
-                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                    HorizontalAlignment="Center"
-                                    Margin="8 4 8 8"
-                                    Content="More"/>
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            HorizontalAlignment="Center"
+                                            Margin="8 4 8 8"
+                                            Content="{DynamicResource m_Cm_More}"/>
 
                                     <Button Grid.Column="1"
-                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                    HorizontalAlignment="Center"
-                                    Margin="8 4 8 8"
-                                    Content="Edit"/>
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            HorizontalAlignment="Center"
+                                            Margin="8 4 8 8"
+                                            Content="{DynamicResource m_Cm_Edit}"/>
                                 </Grid>
                             </Grid>
                         </materialDesign:Card>
@@ -92,6 +92,6 @@
         </ListBox>
 
         <local:Loader Visibility="{Binding IsEnabled, Converter={StaticResource InverseBoolToVisConverter}}"/>
-        
+
     </Grid>
 </UserControl>
