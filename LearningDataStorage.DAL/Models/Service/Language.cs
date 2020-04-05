@@ -9,6 +9,13 @@ namespace LearningDataStorage.DAL
     [Table("Languages", Schema = "srv")]
     public class Language
     {
+        public Language(int id, string name, string code)
+        {
+            Id = id;
+            Name = name;
+            Code = code;
+        }
+
         public Language(string name, string code)
         {
             Name = name;

@@ -10,9 +10,18 @@ namespace LearningDataStorage.DAL
     [Table("Countries", Schema = "srv")]
     public class Country
     {
-        public Country(string name)
+        public Country(int id, string name, string alpha3Code)
+        {
+            Id = id;
+            Name = name;
+            Alpha3Code = alpha3Code;
+            Cities = new List<City>();
+        }
+        
+        public Country(string name, string alpha3Code)
         {
             Name = name;
+            Alpha3Code = alpha3Code;
             Cities = new List<City>();
         }
 
@@ -28,6 +37,13 @@ namespace LearningDataStorage.DAL
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Alpha-3 код.
+        /// </summary>
+        [Required]
+        [MaxLength(3)]
+        public string Alpha3Code { get; set; }
 
         /// <summary>
         /// Города.
