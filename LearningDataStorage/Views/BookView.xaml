@@ -1,97 +1,78 @@
 ﻿<UserControl x:Class="LearningDataStorage.BookView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:LearningDataStorage"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      mc:Ignorable="d" 
-      d:DesignHeight="450"
-      d:DesignWidth="800">
-    <Grid >
-        <ListBox ItemsSource="{Binding Books}"
-                 IsEnabled="{Binding IsEnabled}">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LearningDataStorage"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"
-                               IsItemsHost="True"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+        <StackPanel Grid.Row="0">
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="5">
-                        <materialDesign:Card Width="220">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="140" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Image Source="Resources/Contact.png"
-                                       Height="140"
-                                       Stretch="UniformToFill" />
-                                <Button Grid.Row="0"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Margin="0 0 16 -20">
-                                    <materialDesign:PackIcon Kind="BookOpenPageVariant" />
-                                </Button>
-                                <StackPanel Grid.Row="1"
-                                            Margin="8 24 8 4">
+            <Image Source="{Binding Book.OriginalBookEdition.BookCover.FullPath}"
+                   Stretch="UniformToFill" />
 
-                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                               Margin="0"
-                                               Text="{Binding Author}"/>
+            <Button Grid.Row="0"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 16 -20"
+                    Command="{Binding LoadBookCoverCommand}">
+                <materialDesign:PackIcon Kind="BookOpenPageVariant" />
+            </Button>
 
-                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                               Margin="0"
-                                               Text="{Binding Title}"/>
+            <TextBlock Text="{DynamicResource m_Fl_Authors}"
+                     Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                     Margin="0 6 0 0"
+                     FontSize="18" />
+            
+            <ListBox ItemsSource="{Binding Book.Authors}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ComboBox materialDesign:HintAssist.Hint="{DynamicResource m_Cm_Search}"
+                                  materialDesign:TextFieldAssist.HasClearButton="True"
+                                  IsEditable="True"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  materialDesign:HintAssist.HelperText="{DynamicResource m_Cm_SearchAuthor}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <TextBox wpf:HintAssist.Hint="{DynamicResource m_Fl_Title}"
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                     Margin="0 6 0 0"
+                     FontSize="18"
+                     Text="{Binding Book.Title}"/>
 
-                                    <Viewbox Margin="0 4 0 8"
-                                             Height="16"
-                                             HorizontalAlignment="Left">
-                                        <materialDesign:RatingBar Value="3"
-                                                                  Orientation="Horizontal"
-                                                                  Foreground="Gold"
-                                                                  Margin="0" />
-                                    </Viewbox>
+            <TextBox wpf:HintAssist.Hint="{DynamicResource m_Fl_ShortDescription}"
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                     Margin="0 6 0 0"
+                     FontSize="18"
+                     Text="{Binding Book.ShortDescription}"/>
+        </StackPanel>
 
-                                    <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding ShortDescription}"/>
-                                </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Margin="0 16 0 0">
 
-                                <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+            <Button IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding SaveCommand}"
+                    Content="{DynamicResource m_Cm_Save}"/>
 
-                                    <Button Grid.Column="0"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            HorizontalAlignment="Center"
-                                            Margin="8 4 8 8"
-                                            Content="{DynamicResource m_Cm_More}"/>
+            <Button IsCancel="True"
+                    Margin="8 0 0 0"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding CancelCommand}"
+                    Content="{DynamicResource m_Cm_Cancel}"/>
 
-                                    <Button Grid.Column="1"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            HorizontalAlignment="Center"
-                                            Margin="8 4 8 8"
-                                            Content="{DynamicResource m_Cm_Edit}"/>
-                                </Grid>
-                            </Grid>
-                        </materialDesign:Card>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <local:Loader Visibility="{Binding IsEnabled, Converter={StaticResource InverseBoolToVisConverter}}"/>
-
+        </StackPanel>
     </Grid>
 </UserControl>

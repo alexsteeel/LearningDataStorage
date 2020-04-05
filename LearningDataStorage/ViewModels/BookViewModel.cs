@@ -1,48 +1,73 @@
 ﻿using LearningDataStorage.DAL;
+using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace LearningDataStorage
 {
-    public class BookViewModel : BindableBase, IInitialized
+    public class BookViewModel : BindableBase, IDialog
     {
-        public BookViewModel()
+        public BookViewModel(Book book)
         {
-            Books = new List<Book>();
+            Book = book;
+            SaveCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
+            LoadBookCoverCommand = new DelegateCommand(LoadBookCover);
+            CancelCommand = new DelegateCommand(Cancel);
         }
 
-        /// <summary>
-        /// Книги.
-        /// </summary>
-        public List<Book> Books { get; set; }
-
-        public bool IsEnabled { get; set; }
-
-        public async void Init()
+        private bool CanSaveChanges()
         {
-            IsEnabled = false;
+            return true;
+        }
 
-            try
+        private void SaveChanges()
+        {
+            using (ApplicationContext ctx = new ApplicationContext())
             {
-                await Task.Run(() =>
+                var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
+                if (book == null)
                 {
-                    using (ApplicationContext ctx = new ApplicationContext())
-                    {
-                        Books = ctx.Books.ToList();
-                    }
-                });
+                    ctx.Books.Add(book);
+                }
+                else
+                {
+                    ctx.Entry(book).CurrentValues.SetValues(Book);
+                }
+
+                ctx.SaveChanges();
             }
-            catch (Exception ex)
+        }
+
+        private void Cancel()
+        {
+            IsCanceled?.Invoke(this, EventArgs.Empty);
+        }
+
+        public Book Book { get; set; }
+
+        public bool IsEditMode { get; set; }
+
+        public DelegateCommand SaveCommand { get; set; }
+
+        public DelegateCommand CancelCommand { get; set; }
+
+        public event EventHandler IsAccepted;
+
+        public event EventHandler IsCanceled;
+
+        public DelegateCommand LoadBookCoverCommand { get; set; }
+
+        
+        private void LoadBookCover()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
             {
-                throw ex;
+                var fileLoader = new FileLoader();
+                fileLoader.LoadBookCover(openFileDialog.FileName, Book.OriginalBookEdition.Id);
             }
-            finally
-            {
-                IsEnabled = true;
-            }                        
         }
     }
 }

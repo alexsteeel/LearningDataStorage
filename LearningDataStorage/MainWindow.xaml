@@ -26,8 +26,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
-            <DataTemplate DataType="{x:Type local:BookViewModel}">
-                <local:BookView />
+            <DataTemplate DataType="{x:Type local:BooksViewModel}">
+                <local:BooksView />
             </DataTemplate>
             
         </ResourceDictionary>
@@ -45,8 +45,7 @@
                                       Margin="16"
                                       IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
 
-                        <ListBox Margin="0 16 0 16"
-                                 SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                        <ListBox SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
                                  ItemsSource="{Binding Items}">
                             
                             <ListBox.Resources>
@@ -79,20 +78,20 @@
                                        Text="{Binding SelectedItem.Name}"/>
                         </DockPanel>
                     </materialDesign:ColorZone>
-                    <Grid>
-
+                    
+                    <Grid Margin="-16">
                         <ScrollViewer HorizontalScrollBarVisibility="{Binding SelectedItem.HorizontalScrollBarVisibilityRequirement}"
                                       VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement}" 
-                                      Padding="{Binding SelectedItem.MarginRequirement}">
-                            
-                            <ContentControl Content="{Binding SelectedItem.ViewModel, UpdateSourceTrigger=PropertyChanged}" />
-                        
+                                      Padding="{Binding SelectedItem.MarginRequirement}">                            
+                            <ContentControl Content="{Binding SelectedItem.ViewModel, UpdateSourceTrigger=PropertyChanged}"/>                        
                         </ScrollViewer>
 
                         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                                  x:Name="MainSnackbar" />
                     </Grid>
+                    
                 </DockPanel>
+                
             </materialDesign:DrawerHost>
         </materialDesign:DialogHost>
     </Grid>
