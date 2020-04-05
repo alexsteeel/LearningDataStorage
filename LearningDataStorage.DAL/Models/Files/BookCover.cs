@@ -26,6 +26,11 @@ namespace LearningDataStorage.DAL
         public int FileId { get; set; }
 
         /// <summary>
+        /// Файл.
+        /// </summary>
+        public virtual DbFile File { get; set; }
+
+        /// <summary>
         /// Id издания книги.
         /// </summary>
         public int BookEditionId { get; set; }
