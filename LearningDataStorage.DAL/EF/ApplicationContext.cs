@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LearningDataStorage.DAL
@@ -61,7 +62,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Файлы.
         /// </summary>
-        public DbSet<FileDescription> FileDescriptions { get; set; }
+        public DbSet<DbFile> DbFiles { get; set; }
 
         #endregion DbSets
 
@@ -69,7 +70,7 @@ namespace LearningDataStorage.DAL
         {
             
         }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = GetConnectionString();
@@ -84,6 +85,27 @@ namespace LearningDataStorage.DAL
             var config = builder.Build();
             string connectionString = config.GetConnectionString("DefaultConnection");
             return connectionString;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // https://www.iban.com/country-codes
+            modelBuilder.Entity<Country>()
+                .HasData(
+                    new Country(1, "Russian Federation", "RUS"),                    
+                    new Country(2, "United States of America (the)", "USA")
+                );
+
+            modelBuilder.Entity<City>()
+                .HasData(
+                    new City(1, "Moscow", 1)
+                );
+
+            modelBuilder.Entity<Language>()
+                .HasData(
+                    new Language(1, "English", "eng"),
+                    new Language(2, "Russian", "rus")
+                );
         }
     }
 }
