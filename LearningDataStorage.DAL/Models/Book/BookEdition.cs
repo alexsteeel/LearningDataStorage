@@ -21,7 +21,7 @@ namespace LearningDataStorage.DAL
         public BookCover BookCover { get; set; }
 
         /// <summary>
-        /// Заглавие (здесь в отличие от самой книги может быть переведенный вариант).
+        /// Заглавие.
         /// </summary>
         [Required]
         [MaxLength(500)]
@@ -110,6 +110,11 @@ namespace LearningDataStorage.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// Признак оригинального издания.
+        /// </summary>
+        public bool IsOrigin { get; set; }
 
         /// <summary>
         /// Цитаты.

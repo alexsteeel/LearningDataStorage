@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace LearningDataStorage.DAL
 {
@@ -28,6 +29,15 @@ namespace LearningDataStorage.DAL
         [Required]
         [MaxLength(1000)]
         public string ShortDescription { get; set; }
+
+        /// <summary>
+        /// Изначальное издание книги.
+        /// </summary>
+        [NotMapped]
+        public BookEdition OriginalBookEdition
+        {
+            get { return BookEditions.FirstOrDefault(); }
+        }
 
         /// <summary>
         /// Авторы.
