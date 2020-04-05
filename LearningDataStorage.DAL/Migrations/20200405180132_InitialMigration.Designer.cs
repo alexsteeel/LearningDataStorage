@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningDataStorage.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200404190811_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20200405180132_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -115,6 +115,8 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasIndex("BookEditionId")
                         .IsUnique();
 
+                    b.HasIndex("FileId");
+
                     b.ToTable("BookCovers","file");
                 });
 
@@ -135,6 +137,9 @@ namespace LearningDataStorage.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(13)")
                         .HasMaxLength(13);
+
+                    b.Property<bool>("IsOrigin")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -214,6 +219,14 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities","srv");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 1,
+                            Name = "Moscow"
+                        });
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.Country", b =>
@@ -223,6 +236,11 @@ namespace LearningDataStorage.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Alpha3Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(3)")
+                        .HasMaxLength(3);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -231,34 +249,48 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries","srv");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Alpha3Code = "RUS",
+                            Name = "Russian Federation"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Alpha3Code = "USA",
+                            Name = "United States of America (the)"
+                        });
                 });
 
-            modelBuilder.Entity("LearningDataStorage.DAL.FileDescription", b =>
+            modelBuilder.Entity("LearningDataStorage.DAL.DbFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedTimestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedTimestamp")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FileTable")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<Guid>("StreamGuid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileDescriptions");
+                    b.ToTable("DbFiles");
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.Language", b =>
@@ -280,6 +312,20 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages","srv");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "eng",
+                            Name = "English"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "rus",
+                            Name = "Russian"
+                        });
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.Link", b =>
@@ -382,6 +428,12 @@ namespace LearningDataStorage.DAL.Migrations
                     b.HasOne("LearningDataStorage.DAL.BookEdition", "BookEdition")
                         .WithOne("BookCover")
                         .HasForeignKey("LearningDataStorage.DAL.BookCover", "BookEditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearningDataStorage.DAL.DbFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

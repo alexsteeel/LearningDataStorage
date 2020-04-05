@@ -14,14 +14,9 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Получить путь к папке сервера.
         /// </summary>
-        /// <returns></returns>
-        private string GetFileServerString()
+        public string GetFileServerString()
         {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("appsettings.json");
-            var config = builder.Build();
-            string fileServerString = config.GetConnectionString("ServerUploadFolder");
+            string fileServerString = ConfigurationManager.AppSetting["ApplicationConfiguration:ServerUploadFolder"];
             return fileServerString;
         }
 
@@ -46,45 +41,27 @@ namespace LearningDataStorage.DAL
         }
 
         /// <summary>
-        /// Получить Id загруженного файла.
-        /// </summary>
-        /// <returns></returns>
-        private int? GetLoadedFileId(string fileName)
-        {
-            int? res = 0;
-            using (ApplicationContext ctx = new ApplicationContext())
-            {
-                var maxFileCreatedTime = ctx.FileDescriptions
-                    .Where(x => x.FileName == fileName)
-                    .Max(x => x.CreatedTimestamp);
-
-                res = ctx.FileDescriptions
-                    .Where(x => x.CreatedTimestamp == maxFileCreatedTime)
-                    .FirstOrDefault()
-                    .Id;
-            }
-            return res;
-        }
-
-        /// <summary>
         /// Загрузить обложку книги.
         /// </summary>
         /// <param name="sourceFilePath">Путь к исходному файлу.</param>
         public async void LoadBookCover(string sourceFilePath, int bookEditionId)
         {
-            await CopyFilesAsync(sourceFilePath, "BookCovers");
+            var bookCovers = "BookCovers";
+            await CopyFilesAsync(sourceFilePath, bookCovers);
 
+            var fileType = Path.GetExtension(sourceFilePath);
             var fileName = Path.GetFileName(sourceFilePath);
-            var fileId = GetLoadedFileId(fileName);
-            if (fileId is null)
-            {
-                throw new ArgumentNullException("Изображение с обложкой не загружено в БД.");
-            }
 
-            var bookCover = new BookCover((int)fileId, bookEditionId);
+            var sp = new StoredProcedure();
+            var fileGuid = sp.GetBookCoverGuid(fileName);
 
             using (ApplicationContext ctx = new ApplicationContext())
             {
+                var dbFile = new DbFile(fileGuid, bookCovers, fileName, fileType);
+                ctx.DbFiles.Add(dbFile);
+                ctx.SaveChanges();
+
+                var bookCover = new BookCover(dbFile.Id, bookEditionId);
                 ctx.BookCovers.Add(bookCover);
                 ctx.SaveChanges();
             }

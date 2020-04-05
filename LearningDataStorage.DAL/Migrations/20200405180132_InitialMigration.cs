@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningDataStorage.DAL.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,20 +17,19 @@ namespace LearningDataStorage.DAL.Migrations
                 name: "srv");
 
             migrationBuilder.CreateTable(
-                name: "FileDescriptions",
+                name: "DbFiles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StreamGuid = table.Column<Guid>(nullable: false),
+                    FileTable = table.Column<string>(nullable: false),
                     FileName = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    CreatedTimestamp = table.Column<DateTime>(nullable: false),
-                    UpdatedTimestamp = table.Column<DateTime>(nullable: false),
-                    ContentType = table.Column<string>(nullable: true)
+                    FileType = table.Column<string>(maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FileDescriptions", x => x.Id);
+                    table.PrimaryKey("PK_DbFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +82,8 @@ namespace LearningDataStorage.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Alpha3Code = table.Column<string>(maxLength: 3, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -242,6 +242,7 @@ namespace LearningDataStorage.DAL.Migrations
                     CityId = table.Column<int>(nullable: false),
                     PagesCount = table.Column<int>(nullable: false),
                     ISBN = table.Column<string>(maxLength: 13, nullable: false),
+                    IsOrigin = table.Column<bool>(nullable: false),
                     BookId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -319,7 +320,39 @@ namespace LearningDataStorage.DAL.Migrations
                         principalTable: "BookEditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookCovers_DbFiles_FileId",
+                        column: x => x.FileId,
+                        principalTable: "DbFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                schema: "srv",
+                table: "Countries",
+                columns: new[] { "Id", "Alpha3Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "RUS", "Russian Federation" },
+                    { 2, "USA", "United States of America (the)" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "srv",
+                table: "Languages",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "eng", "English" },
+                    { 2, "rus", "Russian" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "srv",
+                table: "Cities",
+                columns: new[] { "Id", "CountryId", "Name" },
+                values: new object[] { 1, 1, "Moscow" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Authors_BookId",
@@ -389,49 +422,87 @@ namespace LearningDataStorage.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookCovers_FileId",
+                schema: "file",
+                table: "BookCovers",
+                column: "FileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
                 schema: "srv",
                 table: "Cities",
                 column: "CountryId");
 
-           migrationBuilder.Sql(
-           @"
-                ALTER DATABASE LDS  
-                SET FILESTREAM ( NON_TRANSACTED_ACCESS = FULL, DIRECTORY_NAME = N'FilesStore' );  
-                GO  
+            migrationBuilder.Sql(
+            @"
+	            ALTER DATABASE LDS  
+	            SET FILESTREAM ( NON_TRANSACTED_ACCESS = FULL, DIRECTORY_NAME = N'FilesStore' );  
+	            GO  
 
-                ALTER DATABASE LDS
-                ADD FILEGROUP fsGroup CONTAINS FILESTREAM;
-                GO
+	            ALTER DATABASE LDS
+	            ADD FILEGROUP fsGroup CONTAINS FILESTREAM;
+	            GO
 
-                ALTER DATABASE LDS
-                ADD FILE
-                  ( NAME = 'fsLdsDB', FILENAME = 'D:\FileStorage'
-                   )
-                TO FILEGROUP fsGroup;
-                GO
+	            ALTER DATABASE LDS
+	            ADD FILE
+	              ( NAME = 'fsLdsDB', FILENAME = 'D:\FileStorage'
+	               )
+	            TO FILEGROUP fsGroup;
+	            GO
 
-                CREATE TABLE AuthorsPhotoStore AS FileTable
-                WITH
-                (
-                    FileTable_Directory = 'AuthorsPhoto',
-                    FileTable_Collate_Filename = database_default
-                );
+	            CREATE TABLE AuthorsPhotoStore AS FileTable
+	            WITH
+	            (
+		            FileTable_Directory = 'AuthorsPhoto',
+		            FileTable_Collate_Filename = database_default
+	            );
+	            GO
+	
+	            CREATE TABLE BookCoversStore AS FileTable
+	            WITH
+	            (
+		            FileTable_Directory = 'BookCovers',
+		            FileTable_Collate_Filename = database_default
+	            );
+	            GO
+	
+CREATE PROCEDURE [file].GetAuthorsPhotoGuid
+	@FileName NVARCHAR(MAX),
+	@FileGuid UNIQUEIDENTIFIER OUTPUT
+AS
+BEGIN
 
-                CREATE TABLE BookCoversStore AS FileTable
-                WITH
-                (
-                    FileTable_Directory = 'BookCovers',
-                    FileTable_Collate_Filename = database_default
-                );
+	SET @FileGuid = 
+	(
+		SELECT A.[stream_id]
+		FROM [dbo].[AuthorsPhotoStore] AS A
+        WITH(READCOMMITTEDLOCK)
+		WHERE A.[name] = @FileName
+	);
+
+END
+GO
+
+CREATE PROCEDURE [file].GetBookCoverGuid
+	@FileName NVARCHAR(MAX),
+	@FileGuid UNIQUEIDENTIFIER OUTPUT
+AS
+BEGIN
+
+	SET @FileGuid = 
+	(
+		SELECT A.[stream_id]
+		FROM [dbo].[BookCoversStore] AS A
+        WITH(READCOMMITTEDLOCK)
+		WHERE A.[name] = @FileName
+	);
+
+END
             ", true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "FileDescriptions");
-
             migrationBuilder.DropTable(
                 name: "BookRatings",
                 schema: "dt");
@@ -459,6 +530,9 @@ namespace LearningDataStorage.DAL.Migrations
             migrationBuilder.DropTable(
                 name: "BookEditions",
                 schema: "dt");
+
+            migrationBuilder.DropTable(
+                name: "DbFiles");
 
             migrationBuilder.DropTable(
                 name: "Links",
