@@ -44,7 +44,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Image Source="Resources/Contact.png"
+                                <Image Source="{Binding OriginalBookEdition.BookCover.File.FullPath}"
                                        Height="140"
                                        Stretch="UniformToFill" />
                                 <Button Grid.Row="0"

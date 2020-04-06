@@ -66,7 +66,20 @@ namespace LearningDataStorage
                 {
                     using (ApplicationContext ctx = new ApplicationContext())
                     {
-                        Books = ctx.Books.Include(x => x.BookEditions).ToList();
+                        Books = ctx.Books
+                            .Include(book => book.Editions)
+                                .ThenInclude(edition => edition.BookCover)
+                                    .ThenInclude(cover => cover.File)
+                            .Include(book => book.Editions)
+                                .ThenInclude(edition => edition.PublishingHouse)
+                            .Include(book => book.Editions)
+                                .ThenInclude(edition => edition.City)
+                            .Include(book => book.Editions)
+                                .ThenInclude(edition => edition.Language)
+                            .Include(book => book.Authors)
+                            .Include(book => book.Ratings)
+                                .ThenInclude(rating => rating.Site)
+                            .ToList();
                     }
                 });
             }
