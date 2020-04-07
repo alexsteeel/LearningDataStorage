@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningDataStorage.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200405180132_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200407194413_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,64 +82,8 @@ namespace LearningDataStorage.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Books","dt");
-                });
-
-            modelBuilder.Entity("LearningDataStorage.DAL.BookCover", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookEditionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookEditionId")
-                        .IsUnique();
-
-                    b.HasIndex("FileId");
-
-                    b.ToTable("BookCovers","file");
-                });
-
-            modelBuilder.Entity("LearningDataStorage.DAL.BookEdition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(13)")
-                        .HasMaxLength(13);
-
-                    b.Property<bool>("IsOrigin")
-                        .HasColumnType("bit");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -149,6 +93,11 @@ namespace LearningDataStorage.DAL.Migrations
 
                     b.Property<int>("PublishingHouseId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -160,15 +109,56 @@ namespace LearningDataStorage.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
-
                     b.HasIndex("CityId");
 
                     b.HasIndex("LanguageId");
 
                     b.HasIndex("PublishingHouseId");
 
-                    b.ToTable("BookEditions","dt");
+                    b.ToTable("Books","dt");
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.BookCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PageNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookCategories","dt");
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.BookCover", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("BookCovers","file");
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.BookRating", b =>
@@ -352,7 +342,10 @@ namespace LearningDataStorage.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookEditionId")
+                    b.Property<int?>("BookCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -360,7 +353,9 @@ namespace LearningDataStorage.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookEditionId");
+                    b.HasIndex("BookCategoryId");
+
+                    b.HasIndex("BookId");
 
                     b.ToTable("Notes","dt");
                 });
@@ -423,27 +418,8 @@ namespace LearningDataStorage.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LearningDataStorage.DAL.BookCover", b =>
+            modelBuilder.Entity("LearningDataStorage.DAL.Book", b =>
                 {
-                    b.HasOne("LearningDataStorage.DAL.BookEdition", "BookEdition")
-                        .WithOne("BookCover")
-                        .HasForeignKey("LearningDataStorage.DAL.BookCover", "BookEditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LearningDataStorage.DAL.DbFile", "File")
-                        .WithMany()
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LearningDataStorage.DAL.BookEdition", b =>
-                {
-                    b.HasOne("LearningDataStorage.DAL.Book", null)
-                        .WithMany("BookEditions")
-                        .HasForeignKey("BookId");
-
                     b.HasOne("LearningDataStorage.DAL.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
@@ -463,10 +439,34 @@ namespace LearningDataStorage.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LearningDataStorage.DAL.BookCategory", b =>
+                {
+                    b.HasOne("LearningDataStorage.DAL.Book", "Book")
+                        .WithMany("Categories")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LearningDataStorage.DAL.BookCover", b =>
+                {
+                    b.HasOne("LearningDataStorage.DAL.Book", "Book")
+                        .WithOne("BookCover")
+                        .HasForeignKey("LearningDataStorage.DAL.BookCover", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearningDataStorage.DAL.DbFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LearningDataStorage.DAL.BookRating", b =>
                 {
                     b.HasOne("LearningDataStorage.DAL.Book", null)
-                        .WithMany("BookRatings")
+                        .WithMany("Ratings")
                         .HasForeignKey("BookId");
 
                     b.HasOne("LearningDataStorage.DAL.Site", "Site")
@@ -487,9 +487,13 @@ namespace LearningDataStorage.DAL.Migrations
 
             modelBuilder.Entity("LearningDataStorage.DAL.Note", b =>
                 {
-                    b.HasOne("LearningDataStorage.DAL.BookEdition", null)
+                    b.HasOne("LearningDataStorage.DAL.BookCategory", null)
                         .WithMany("Notes")
-                        .HasForeignKey("BookEditionId");
+                        .HasForeignKey("BookCategoryId");
+
+                    b.HasOne("LearningDataStorage.DAL.Book", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("LearningDataStorage.DAL.Site", b =>

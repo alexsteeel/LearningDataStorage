@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningDataStorage.DAL.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,21 +30,6 @@ namespace LearningDataStorage.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DbFiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Books",
-                schema: "dt",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 500, nullable: false),
-                    ShortDescription = table.Column<string>(maxLength: 1000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,31 +91,6 @@ namespace LearningDataStorage.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Authors",
-                schema: "dt",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Surname = table.Column<string>(maxLength: 100, nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Patronymic = table.Column<string>(maxLength: 100, nullable: true),
-                    Biography = table.Column<string>(nullable: true),
-                    BookId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Authors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Authors_Books_BookId",
-                        column: x => x.BookId,
-                        principalSchema: "dt",
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sites",
                 schema: "dt",
                 columns: table => new
@@ -176,23 +136,89 @@ namespace LearningDataStorage.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorPhoto",
-                schema: "file",
+                name: "Books",
+                schema: "dt",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FileId = table.Column<int>(nullable: false),
-                    AuthorId = table.Column<int>(nullable: false)
+                    Title = table.Column<string>(maxLength: 500, nullable: false),
+                    ShortDescription = table.Column<string>(maxLength: 1000, nullable: false),
+                    LanguageId = table.Column<int>(nullable: false),
+                    PublishingHouseId = table.Column<int>(nullable: false),
+                    Year = table.Column<int>(nullable: false),
+                    CityId = table.Column<int>(nullable: false),
+                    PagesCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorPhoto", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthorPhoto_Authors_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_Books_Cities_CityId",
+                        column: x => x.CityId,
+                        principalSchema: "srv",
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalSchema: "srv",
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_PublishingHouses_PublishingHouseId",
+                        column: x => x.PublishingHouseId,
                         principalSchema: "dt",
-                        principalTable: "Authors",
+                        principalTable: "PublishingHouses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Authors",
+                schema: "dt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Surname = table.Column<string>(maxLength: 100, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Patronymic = table.Column<string>(maxLength: 100, nullable: true),
+                    Biography = table.Column<string>(nullable: true),
+                    BookId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Authors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Authors_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "dt",
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookCategories",
+                schema: "dt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PageNumber = table.Column<int>(nullable: false),
+                    BookId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookCategories_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "dt",
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -229,51 +255,51 @@ namespace LearningDataStorage.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookEditions",
-                schema: "dt",
+                name: "BookCovers",
+                schema: "file",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 500, nullable: false),
-                    LanguageId = table.Column<int>(nullable: false),
-                    PublishingHouseId = table.Column<int>(nullable: false),
-                    Year = table.Column<int>(nullable: false),
-                    CityId = table.Column<int>(nullable: false),
-                    PagesCount = table.Column<int>(nullable: false),
-                    ISBN = table.Column<string>(maxLength: 13, nullable: false),
-                    IsOrigin = table.Column<bool>(nullable: false),
-                    BookId = table.Column<int>(nullable: true)
+                    FileId = table.Column<int>(nullable: false),
+                    BookId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookEditions", x => x.Id);
+                    table.PrimaryKey("PK_BookCovers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BookEditions_Books_BookId",
+                        name: "FK_BookCovers_Books_BookId",
                         column: x => x.BookId,
                         principalSchema: "dt",
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BookEditions_Cities_CityId",
-                        column: x => x.CityId,
-                        principalSchema: "srv",
-                        principalTable: "Cities",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookEditions_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalSchema: "srv",
-                        principalTable: "Languages",
+                        name: "FK_BookCovers_DbFiles_FileId",
+                        column: x => x.FileId,
+                        principalTable: "DbFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuthorPhoto",
+                schema: "file",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileId = table.Column<int>(nullable: false),
+                    AuthorId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuthorPhoto", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BookEditions_PublishingHouses_PublishingHouseId",
-                        column: x => x.PublishingHouseId,
+                        name: "FK_AuthorPhoto_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalSchema: "dt",
-                        principalTable: "PublishingHouses",
+                        principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -286,46 +312,26 @@ namespace LearningDataStorage.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(nullable: true),
-                    BookEditionId = table.Column<int>(nullable: true)
+                    BookCategoryId = table.Column<int>(nullable: true),
+                    BookId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notes_BookEditions_BookEditionId",
-                        column: x => x.BookEditionId,
+                        name: "FK_Notes_BookCategories_BookCategoryId",
+                        column: x => x.BookCategoryId,
                         principalSchema: "dt",
-                        principalTable: "BookEditions",
+                        principalTable: "BookCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookCovers",
-                schema: "file",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileId = table.Column<int>(nullable: false),
-                    BookEditionId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookCovers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BookCovers_BookEditions_BookEditionId",
-                        column: x => x.BookEditionId,
+                        name: "FK_Notes_Books_BookId",
+                        column: x => x.BookId,
                         principalSchema: "dt",
-                        principalTable: "BookEditions",
+                        principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookCovers_DbFiles_FileId",
-                        column: x => x.FileId,
-                        principalTable: "DbFiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -361,28 +367,10 @@ namespace LearningDataStorage.DAL.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookEditions_BookId",
+                name: "IX_BookCategories_BookId",
                 schema: "dt",
-                table: "BookEditions",
+                table: "BookCategories",
                 column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookEditions_CityId",
-                schema: "dt",
-                table: "BookEditions",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookEditions_LanguageId",
-                schema: "dt",
-                table: "BookEditions",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookEditions_PublishingHouseId",
-                schema: "dt",
-                table: "BookEditions",
-                column: "PublishingHouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookRatings_BookId",
@@ -397,10 +385,34 @@ namespace LearningDataStorage.DAL.Migrations
                 column: "SiteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_BookEditionId",
+                name: "IX_Books_CityId",
+                schema: "dt",
+                table: "Books",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_LanguageId",
+                schema: "dt",
+                table: "Books",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_PublishingHouseId",
+                schema: "dt",
+                table: "Books",
+                column: "PublishingHouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_BookCategoryId",
                 schema: "dt",
                 table: "Notes",
-                column: "BookEditionId");
+                column: "BookCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_BookId",
+                schema: "dt",
+                table: "Notes",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sites_MainPageLinkId",
@@ -415,10 +427,10 @@ namespace LearningDataStorage.DAL.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookCovers_BookEditionId",
+                name: "IX_BookCovers_BookId",
                 schema: "file",
                 table: "BookCovers",
-                column: "BookEditionId",
+                column: "BookId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -524,11 +536,11 @@ END
                 schema: "dt");
 
             migrationBuilder.DropTable(
-                name: "Authors",
+                name: "BookCategories",
                 schema: "dt");
 
             migrationBuilder.DropTable(
-                name: "BookEditions",
+                name: "Authors",
                 schema: "dt");
 
             migrationBuilder.DropTable(
