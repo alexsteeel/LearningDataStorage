@@ -10,10 +10,10 @@ namespace LearningDataStorage.DAL
     [Table("BookCovers", Schema = "file")]
     public class BookCover
     {
-        public BookCover(int fileId, int bookEditionId)
+        public BookCover(int fileId, int bookId)
         {
             FileId = fileId;
-            BookEditionId = bookEditionId;
+            BookId = bookId;
         }
 
         [Key]
@@ -33,11 +33,11 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Id издания книги.
         /// </summary>
-        public int BookEditionId { get; set; }
+        public int BookId { get; set; }
 
         /// <summary>
-        /// Издание книги.
+        /// Книга.
         /// </summary>
-        public virtual BookEdition BookEdition { get; set; }
+        public virtual Book Book { get; set; }
     }
 }

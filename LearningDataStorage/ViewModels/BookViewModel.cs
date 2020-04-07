@@ -66,7 +66,7 @@ namespace LearningDataStorage
             if (openFileDialog.ShowDialog() == true)
             {
                 var fileLoader = new FileLoader();
-                fileLoader.LoadBookCover(openFileDialog.FileName, Book.OriginalBookEdition.Id);
+                fileLoader.LoadBookCover(openFileDialog.FileName, Book.Id);
             }
         }
     }

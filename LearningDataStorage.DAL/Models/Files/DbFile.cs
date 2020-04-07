@@ -54,7 +54,7 @@ namespace LearningDataStorage.DAL
             get
             {
                 var fileLoader = new FileLoader();
-                return $@"{fileLoader.GetFileServerString()}\{FileTable}\{FileName}.{FileType}"; 
+                return $@"{fileLoader.GetFileServerString()}\{FileTable}\{FileName}"; 
             }
         }
     }

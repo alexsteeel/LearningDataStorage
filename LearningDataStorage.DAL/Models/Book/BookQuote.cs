@@ -17,12 +17,12 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Id цитируемого издания.
         /// </summary>
-        public int BookEditionId { get; set; }
+        public int BookId { get; set; }
 
         /// <summary>
-        /// Цитируемое издание.
+        /// Цитируемая книга.
         /// </summary>
-        public virtual BookEdition BookEdition { get; set; }
+        public virtual Book Book{ get; set; }
 
         /// <summary>
         /// Заметки.

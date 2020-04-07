@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,9 +16,17 @@ namespace LearningDataStorage.DAL
         public int Id { get; set; }
 
         /// <summary>
-        /// Заглавие. Здесь используется оригинальное заглавие книги на том языке,
-        /// на котором она была изначально опубликована.
-        /// Для хранения информации о других изданиях используется класс BookEdition.
+        /// Авторы.
+        /// </summary>
+        public ICollection<Author> Authors { get; set; }
+
+        /// <summary>
+        /// Обложка.
+        /// </summary>
+        public BookCover BookCover { get; set; }
+
+        /// <summary>
+        /// Заглавие.
         /// </summary>
         [Required]
         [MaxLength(500)]
@@ -31,28 +40,78 @@ namespace LearningDataStorage.DAL
         public string ShortDescription { get; set; }
 
         /// <summary>
-        /// Изначальное издание книги.
+        /// Id языка.
         /// </summary>
-        [NotMapped]
-        public BookEdition OriginalBookEdition
+        public int LanguageId { get; set; }
+
+        /// <summary>
+        /// Язык.
+        /// </summary>
+        public virtual Language Language { get; set; }
+
+        /// <summary>
+        /// Id издательства.
+        /// </summary>
+        public int PublishingHouseId { get; set; }
+
+        /// <summary>
+        /// Издательство.
+        /// </summary>
+        public virtual PublishingHouse PublishingHouse { get; set; }
+
+        private int _year;
+        /// <summary>
+        /// Год издания.
+        /// </summary>
+        public int Year
         {
-            get { return BookEditions.FirstOrDefault(); }
+            get { return _year; }
+            set
+            {
+                if (value < 1445)
+                {
+                    throw new FormatException("Указан год издания меньше, чем год изобретения книгопечатания в Европе.");
+                }
+                else if (value > DateTime.Now.Year)
+                {
+                    throw new FormatException("Указан год издания, который еще не наступил.");
+                }
+                else
+                {
+                    _year = value;
+                }
+            }
         }
 
         /// <summary>
-        /// Авторы.
+        /// Id города издания.
         /// </summary>
-        public ICollection<Author> Authors { get; set; }
+        public int CityId { get; set; }
 
         /// <summary>
-        /// Издания.
+        /// Город издания.
         /// </summary>
-        public ICollection<BookEdition> BookEditions { get; set; }
+        public City City { get; set; }
+
+        /// <summary>
+        /// Количество страниц.
+        /// </summary>
+        public int PagesCount { get; set; }       
 
         /// <summary>
         /// Оценки книги.
         /// </summary>
-        public ICollection<BookRating> BookRatings { get; set; }
+        public ICollection<BookRating> Ratings { get; set; }
+
+        /// <summary>
+        /// Цитаты.
+        /// </summary>
+        public ICollection<BookQuote> Quotes { get; set; }
+
+        /// <summary>
+        /// Заметки.
+        /// </summary>
+        public ICollection<Note> Notes { get; set; }
 
     }
 }
