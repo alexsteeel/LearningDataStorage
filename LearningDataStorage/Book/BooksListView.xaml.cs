@@ -5,9 +5,9 @@ namespace LearningDataStorage
     /// <summary>
     /// Interaction logic for BookView.xaml
     /// </summary>
-    public partial class BooksView : UserControl
+    public partial class BooksListView : UserControl
     {
-        public BooksView()
+        public BooksListView()
         {
             InitializeComponent();
         }

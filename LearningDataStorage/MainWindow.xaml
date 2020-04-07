@@ -26,8 +26,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
-            <DataTemplate DataType="{x:Type local:BooksViewModel}">
-                <local:BooksView />
+            <DataTemplate DataType="{x:Type local:BooksListViewModel}">
+                <local:BooksListView />
             </DataTemplate>
             
         </ResourceDictionary>

@@ -9,57 +9,44 @@ using System.Threading.Tasks;
 
 namespace LearningDataStorage
 {
-    public class BooksViewModel : BindableBase, IInitialized
+    public class BooksListViewModel : BindableBase, IInitialized
     {
-        public BooksViewModel()
+        public BooksListViewModel()
         {
             Books = new List<Book>();
+            ShowBookCommand = new DelegateCommand(ShowBook);
+        }
 
-            ShowBookCommand = new DelegateCommand<object>(ShowBook, CanShowBook);
+        public DelegateCommand ShowBookCommand { get; set; }
+        
+        private void SelectedBookViewModel_IsAccepted(object sender, EventArgs e)
+        {
+            IsBookOpen = false;
         }
 
         private void SelectedBookViewModel_IsCanceled(object sender, EventArgs e)
         {
-            IsDialogOpen = false;
-        }
+            IsBookOpen = false;
+        }        
 
-        private void SelectedBookViewModel_IsAccepted(object sender, EventArgs e)
-        {
-            IsDialogOpen = false;
-        }
 
-        private bool CanShowBook(object parameter)
-        {
-            return true;
-        }
+        #region Properties
 
-        private void ShowBook(object parameter)
-        {
-            SelectedBook = (Book)parameter;
-            SelectedBookViewModel = new BookViewModel(SelectedBook);
-            SelectedBookViewModel.IsAccepted += SelectedBookViewModel_IsAccepted;
-            SelectedBookViewModel.IsCanceled += SelectedBookViewModel_IsCanceled;
-            IsDialogOpen = true;
-        }
-
-        /// <summary>
-        /// Книги.
-        /// </summary>
         public List<Book> Books { get; set; }
 
-        /// <summary>
-        /// Выбранная книга.
-        /// </summary>
         public Book SelectedBook { get; set; }
 
         public IDialog SelectedBookViewModel { get; set; }
-        public bool IsDialogOpen { get; set; }
-        public bool IsEnabled { get; set; }
+        
+        public bool IsBookOpen { get; set; }
+
+        #endregion Properties
+
+
+        #region Methods
 
         public async void Init()
         {
-            IsEnabled = false;
-
             try
             {
                 await Task.Run(() =>
@@ -83,12 +70,16 @@ namespace LearningDataStorage
             {
                 throw ex;
             }
-            finally
-            {
-                IsEnabled = true;
-            }
         }
 
-        public DelegateCommand<object> ShowBookCommand { get; set; }
+        private void ShowBook()
+        {
+            SelectedBookViewModel = new BookEditViewModel(SelectedBook);
+            SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
+            SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
+            IsBookOpen = true;
+        }
+
+        #endregion Methods
     }
 }

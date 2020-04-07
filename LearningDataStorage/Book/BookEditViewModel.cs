@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace LearningDataStorage
 {
-    public class BookViewModel : BindableBase, IDialog
+    public class BookEditViewModel : BindableBase, IDialog
     {
-        public BookViewModel(Book book)
+        public BookEditViewModel(Book book)
         {
             Book = book;
             SaveCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
@@ -42,7 +42,7 @@ namespace LearningDataStorage
 
         private void Cancel()
         {
-            IsCanceled?.Invoke(this, EventArgs.Empty);
+            OnCanceled?.Invoke(this, EventArgs.Empty);
         }
 
         public Book Book { get; set; }
@@ -53,9 +53,9 @@ namespace LearningDataStorage
 
         public DelegateCommand CancelCommand { get; set; }
 
-        public event EventHandler IsAccepted;
+        public event EventHandler OnAccepted;
 
-        public event EventHandler IsCanceled;
+        public event EventHandler OnCanceled;
 
         public DelegateCommand LoadBookCoverCommand { get; set; }
 

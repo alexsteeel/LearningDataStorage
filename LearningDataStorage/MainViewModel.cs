@@ -49,7 +49,7 @@ namespace LearningDataStorage
 
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem(Localization["m_Sc_Books"].ToString(), new BooksViewModel())
+                new MenuItem(Localization["m_Sc_Books"].ToString(), new BooksListViewModel())
             };
         }
 
