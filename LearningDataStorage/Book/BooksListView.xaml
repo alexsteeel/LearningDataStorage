@@ -46,8 +46,8 @@
 
         <ContentControl Content="{Binding SelectedBookViewModel}"
                         Visibility="{Binding IsBookOpen, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        
-        <local:Loader Visibility="{Binding IsEnabled, Converter={StaticResource InverseBoolToVisConverter}}" />
+
+        <local:Loader Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
     </Grid>
 </UserControl>

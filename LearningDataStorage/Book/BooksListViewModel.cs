@@ -27,8 +27,7 @@ namespace LearningDataStorage
         private void SelectedBookViewModel_IsCanceled(object sender, EventArgs e)
         {
             IsBookOpen = false;
-        }        
-
+        }
 
         #region Properties
 
@@ -40,6 +39,8 @@ namespace LearningDataStorage
         
         public bool IsBookOpen { get; set; }
 
+        public bool IsLoading { get; set; }
+
         #endregion Properties
 
 
@@ -47,6 +48,7 @@ namespace LearningDataStorage
 
         public async void Init()
         {
+            IsLoading = true;
             try
             {
                 await Task.Run(() =>
@@ -65,10 +67,16 @@ namespace LearningDataStorage
                                 .ToList();
                     }
                 });
+
+                IsBookOpen = true;
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 
