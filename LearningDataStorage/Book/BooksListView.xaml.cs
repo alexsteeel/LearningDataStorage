@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace LearningDataStorage
 {
@@ -10,6 +11,11 @@ namespace LearningDataStorage
         public BooksListView()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Focus();
         }
     }
 }

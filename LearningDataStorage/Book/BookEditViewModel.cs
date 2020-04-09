@@ -3,6 +3,8 @@ using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LearningDataStorage
@@ -11,11 +13,54 @@ namespace LearningDataStorage
     {
         public BookEditViewModel(Book book)
         {
-            Book = book;
+            PrepareBook(book);
+            GetCollections();
+
             SaveCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             LoadBookCoverCommand = new DelegateCommand(LoadBookCover);
             CancelCommand = new DelegateCommand(Cancel);
         }
+
+        private void GetCollections()
+        {
+            try
+            {
+                using (ApplicationContext ctx = new ApplicationContext())
+                {
+                    Languages = ctx.Languages.ToList();
+                    PublishingHouses = ctx.PublishingHouses.ToList();
+                    Cities = ctx.Cities.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void PrepareBook(Book book)
+        {
+            if (book == null)
+            {
+                Book = new Book
+                {
+                    Year = 2020
+                };
+            }
+            else
+            {
+                Book = book;
+            }
+        }
+
+        #region Properties
+
+        public ICollection<Language> Languages { get; set; }
+
+        public ICollection<PublishingHouse> PublishingHouses { get; set; }
+
+        public ICollection<City> Cities { get; set; }
+
+        #endregion Properties
 
         private bool CanSaveChanges()
         {
@@ -24,20 +69,28 @@ namespace LearningDataStorage
 
         private void SaveChanges()
         {
-            using (ApplicationContext ctx = new ApplicationContext())
+            try
             {
-                var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
-                if (book == null)
+                using (ApplicationContext ctx = new ApplicationContext())
                 {
-                    ctx.Books.Add(book);
-                }
-                else
-                {
-                    ctx.Entry(book).CurrentValues.SetValues(Book);
-                }
+                    var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
+                    if (book == null)
+                    {
+                        ctx.Books.Add(Book);
+                    }
+                    else
+                    {
+                        ctx.Entry(book).CurrentValues.SetValues(Book);
+                    }
 
-                ctx.SaveChanges();
+                    ctx.SaveChanges();
+                }
             }
+            catch (Exception ex)
+            {
+
+               
+            }            
         }
 
         private void Cancel()

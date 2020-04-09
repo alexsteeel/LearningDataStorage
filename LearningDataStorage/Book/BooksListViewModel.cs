@@ -15,10 +15,13 @@ namespace LearningDataStorage
         {
             Books = new List<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
+            AddBookCommand = new DelegateCommand(AddBook);
         }
 
         public DelegateCommand ShowBookCommand { get; set; }
-        
+
+        public DelegateCommand AddBookCommand { get; set; }
+
         private void SelectedBookViewModel_IsAccepted(object sender, EventArgs e)
         {
             IsBookOpen = false;
@@ -83,6 +86,14 @@ namespace LearningDataStorage
         private void ShowBook()
         {
             SelectedBookViewModel = new BookEditViewModel(SelectedBook);
+            SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
+            SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
+            IsBookOpen = true;
+        }
+
+        private void AddBook()
+        {
+            SelectedBookViewModel = new BookEditViewModel(null);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;

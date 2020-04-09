@@ -7,7 +7,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Loaded="UserControl_Loaded"
+             Focusable="True">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,6 +24,12 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
+
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Ctrl"
+                    Key="N"
+                    Command="{Binding AddBookCommand}" />
+    </UserControl.InputBindings>
 
     <Grid x:Name="root">
         <ListBox ItemsSource="{Binding Books}"
@@ -45,9 +53,18 @@
         </ListBox>
 
         <ContentControl Content="{Binding SelectedBookViewModel}"
-                        Visibility="{Binding IsBookOpen, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        Visibility="{Binding IsBookOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         <local:Loader Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="{DynamicResource m_Cm_AddBook}"
+                          Command="{Binding AddBookCommand}">
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
 
     </Grid>
 </UserControl>

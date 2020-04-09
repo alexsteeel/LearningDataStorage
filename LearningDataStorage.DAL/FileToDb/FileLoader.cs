@@ -44,7 +44,7 @@ namespace LearningDataStorage.DAL
         /// Загрузить обложку книги.
         /// </summary>
         /// <param name="sourceFilePath">Путь к исходному файлу.</param>
-        public async void LoadBookCover(string sourceFilePath, int bookEditionId)
+        public async void LoadBookCover(string sourceFilePath, int bookId)
         {
             var bookCovers = "BookCovers";
             await CopyFilesAsync(sourceFilePath, bookCovers);
@@ -61,7 +61,7 @@ namespace LearningDataStorage.DAL
                 ctx.DbFiles.Add(dbFile);
                 ctx.SaveChanges();
 
-                var bookCover = new BookCover(dbFile.Id, bookEditionId);
+                var bookCover = new BookCover(dbFile.Id, bookId);
                 ctx.BookCovers.Add(bookCover);
                 ctx.SaveChanges();
             }
