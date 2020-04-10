@@ -30,6 +30,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Сайт, на котором выставлена оценка.
         /// </summary>
+        [ForeignKey("SiteId")]
         public virtual Site Site { get; set; }
 
         /// <summary>

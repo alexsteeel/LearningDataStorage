@@ -28,6 +28,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Файл.
         /// </summary>
+        [ForeignKey("FileId")]
         public virtual DbFile File { get; set; }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Книга.
         /// </summary>
+        [ForeignKey("BookId")]
         public virtual Book Book { get; set; }
     }
 }

@@ -42,6 +42,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Ссылка на главную страницу.
         /// </summary>
+        [ForeignKey("MainPageLinkId")]
         public virtual Link MainPageLink { get; set; }
         
     }

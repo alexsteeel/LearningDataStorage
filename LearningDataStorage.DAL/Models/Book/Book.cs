@@ -47,6 +47,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Язык.
         /// </summary>
+        [ForeignKey("LanguageId")]
         public virtual Language Language { get; set; }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Издательство.
         /// </summary>
+        [ForeignKey("PublishingHouseId")]
         public virtual PublishingHouse PublishingHouse { get; set; }
 
         private int _year;
@@ -91,6 +93,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Город издания.
         /// </summary>
+        [ForeignKey("CityId")]
         public City City { get; set; }
 
         /// <summary>

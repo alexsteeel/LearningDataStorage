@@ -26,6 +26,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Автор.
         /// </summary>
+        [ForeignKey("AuthorId")]
         public virtual Author Author { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Страна.
         /// </summary>
+        [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
     }
 }

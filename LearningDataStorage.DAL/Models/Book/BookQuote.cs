@@ -22,6 +22,7 @@ namespace LearningDataStorage.DAL
         /// <summary>
         /// Цитируемая книга.
         /// </summary>
+        [ForeignKey("BookId")]
         public virtual Book Book{ get; set; }
 
         /// <summary>
