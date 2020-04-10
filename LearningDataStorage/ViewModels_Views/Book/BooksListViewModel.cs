@@ -59,11 +59,11 @@ namespace LearningDataStorage
                     using (ApplicationContext ctx = new ApplicationContext())
                     {
                         Books = ctx.Books
-                                .Include(edition => edition.BookCover)
+                                .Include(book => book.BookCover)
                                     .ThenInclude(cover => cover.File)
-                                .Include(edition => edition.PublishingHouse)
-                                .Include(edition => edition.City)
-                                .Include(edition => edition.Language)
+                                .Include(book => book.PublishingHouse)
+                                .Include(book => book.City)
+                                .Include(book => book.Language)
                                 .Include(book => book.Authors)
                                 .Include(book => book.Ratings)
                                     .ThenInclude(rating => rating.Site)

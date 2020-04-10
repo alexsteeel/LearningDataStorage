@@ -5,11 +5,20 @@
     <!--Sections-->
     <v:String x:Key="m_Sc_Home">Home</v:String>
     <v:String x:Key="m_Sc_Books">Books</v:String>
+    <v:String x:Key="m_Sc_PublishingHouses">Publishing houses</v:String>
+    <v:String x:Key="m_Sc_Languages">Languages</v:String>
+    <v:String x:Key="m_Sc_Countries">Countries</v:String>
+    <v:String x:Key="m_Sc_Cities">Cities</v:String>
+    <v:String x:Key="m_Sc_Categories">Categories</v:String>
 
     <!--Fields-->
     <v:String x:Key="m_Fl_Title">Title</v:String>
     <v:String x:Key="m_Fl_ShortDescription">Short description</v:String>
     <v:String x:Key="m_Fl_Authors">Authors</v:String>
+    
+    <!--Headers-->
+    <v:String x:Key="m_Hd_Name">Name</v:String>
+    <v:String x:Key="m_Hd_Country">Country</v:String>
     
     <!--Commands-->
     <v:String x:Key="m_Cm_Open">Open</v:String>

@@ -113,7 +113,6 @@ namespace LearningDataStorage.DAL
         /// </summary>
         public ICollection<Note> Notes { get; set; }
 
-
         /// <summary>
         /// Категории.
         /// </summary>

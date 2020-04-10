@@ -24,6 +24,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Update="ViewModels_Views\City\CitiesListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +38,9 @@
 
   <ItemGroup>
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModels_Views\City\CitiesListView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -29,7 +29,11 @@
             <DataTemplate DataType="{x:Type local:BooksListViewModel}">
                 <local:BooksListView />
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type local:CitiesListViewModel}">
+                <local:CitiesListView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
     
