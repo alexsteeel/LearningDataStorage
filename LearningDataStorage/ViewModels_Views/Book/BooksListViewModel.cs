@@ -1,4 +1,5 @@
 ﻿using LearningDataStorage.DAL;
+using log4net;
 using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -6,13 +7,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LearningDataStorage
 {
     public class BooksListViewModel : BindableBase, IInitialized
     {
-        public BooksListViewModel()
+        private readonly ILog _log;
+        private readonly ResourceDictionary _localization;
+
+        public BooksListViewModel(ILog log, ResourceDictionary localization)
         {
+            _log = log;
+            _localization = localization;
+
             Books = new List<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
             AddBookCommand = new DelegateCommand(AddBook);
@@ -53,7 +61,7 @@ namespace LearningDataStorage
         {
             IsLoading = true;
             try
-            {
+            {                
                 await Task.Run(() =>
                 {
                     using (ApplicationContext ctx = new ApplicationContext())
@@ -75,7 +83,7 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                throw ex;
+                _log.Error($"{_localization["m_Er_InitBooksError"]}{_localization["m_Er_DetailedError"]}", ex);
             }
             finally
             {
@@ -85,7 +93,7 @@ namespace LearningDataStorage
 
         private void ShowBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(SelectedBook);
+            SelectedBookViewModel = new BookEditViewModel(SelectedBook, _log, _localization);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;
@@ -93,7 +101,7 @@ namespace LearningDataStorage
 
         private void AddBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(null);
+            SelectedBookViewModel = new BookEditViewModel(null, _log, _localization);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;

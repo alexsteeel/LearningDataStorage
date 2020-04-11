@@ -1,4 +1,5 @@
 ﻿using LearningDataStorage.DAL;
+using log4net;
 using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -6,13 +7,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LearningDataStorage
 {
     public class CitiesListViewModel : BindableBase, IInitialized
     {
-        public CitiesListViewModel()
+        private readonly ILog _log;
+        private readonly ResourceDictionary _localization;
+
+        public CitiesListViewModel(ILog log, ResourceDictionary localization)
         {
+            _log = log;
+            _localization = localization;
+
             Cities = new List<City>();
 
             SaveCommand = new DelegateCommand(SaveChanges);
@@ -55,7 +63,7 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                throw ex;
+                _log.Error($"{_localization["m_Er_InitCitiesError"]}{_localization["m_Er_DetailedError"]}", ex);
             }
             finally
             {
@@ -86,7 +94,7 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-
+                _log.Error($"{_localization["m_Er_SaveCitiesError"]}{_localization["m_Er_DetailedError"]}", ex);
             }
         }
 

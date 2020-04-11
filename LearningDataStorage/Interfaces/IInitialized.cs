@@ -1,4 +1,6 @@
-﻿namespace LearningDataStorage
+﻿using log4net;
+
+namespace LearningDataStorage
 {
     public interface IInitialized
     {

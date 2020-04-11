@@ -1,18 +1,25 @@
 ﻿using LearningDataStorage.DAL;
+using log4net;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace LearningDataStorage
 {
     public class BookEditViewModel : BindableBase, IDialog
     {
-        public BookEditViewModel(Book book)
+        private readonly ILog _log;
+        private readonly ResourceDictionary _localization;
+
+        public BookEditViewModel(Book book, ILog log, ResourceDictionary localization)
         {
+            _log = log;
+            _localization = localization;
+
             PrepareBook(book);
             GetCollections();
 
@@ -34,6 +41,7 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
+                _log.Error($"{_localization["m_Er_LoadDataError"]}{_localization["m_Er_DetailedError"]}", ex);
             }
         }
 
@@ -88,8 +96,7 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-
-               
+                _log.Error($"{_localization["m_Er_SaveBooksError"]}{_localization["m_Er_DetailedError"]}", ex);
             }            
         }
 
