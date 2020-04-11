@@ -77,6 +77,7 @@ namespace LearningDataStorage
                         }
                         else
                         {
+                            ctx.Entry(city).State = EntityState.Added;
                             ctx.Cities.Add(city);
                         }
                     }
