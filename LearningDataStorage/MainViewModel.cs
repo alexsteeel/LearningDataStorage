@@ -72,6 +72,6 @@ namespace LearningDataStorage
 
         public bool IsChecked { get; set; } = false;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -50,15 +50,13 @@ namespace LearningDataStorage
             {
                 await Task.Run(() =>
                 {
-                    using (ApplicationContext ctx = new ApplicationContext())
-                    {
-                        Cities = ctx.Cities
+                    using ApplicationContext ctx = new ApplicationContext();
+                    Cities = ctx.Cities
                             .Include(city => city.Country)
                             .ToList();
 
-                        Countries = ctx.Countries
-                            .ToList();
-                    }
+                    Countries = ctx.Countries
+                                .ToList();
                 });
             }
             catch (Exception ex)
@@ -75,22 +73,20 @@ namespace LearningDataStorage
         {
             try
             {
-                using (ApplicationContext ctx = new ApplicationContext())
+                using ApplicationContext ctx = new ApplicationContext();
+                foreach (var city in Cities)
                 {
-                    foreach (var city in Cities)
+                    if (city.Id != 0)
                     {
-                        if (city.Id != 0)
-                        {
-                            ctx.Cities.Update(city);
-                        }
-                        else
-                        {
-                            ctx.Entry(city).State = EntityState.Added;
-                            ctx.Cities.Add(city);
-                        }
+                        ctx.Cities.Update(city);
                     }
-                    ctx.SaveChanges();
+                    else
+                    {
+                        ctx.Entry(city).State = EntityState.Added;
+                        ctx.Cities.Add(city);
+                    }
                 }
+                ctx.SaveChanges();
             }
             catch (Exception ex)
             {

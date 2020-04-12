@@ -32,12 +32,10 @@ namespace LearningDataStorage
         {
             try
             {
-                using (ApplicationContext ctx = new ApplicationContext())
-                {
-                    Languages = ctx.Languages.ToList();
-                    PublishingHouses = ctx.PublishingHouses.ToList();
-                    Cities = ctx.Cities.ToList();
-                }
+                using ApplicationContext ctx = new ApplicationContext();
+                Languages = ctx.Languages.ToList();
+                PublishingHouses = ctx.PublishingHouses.ToList();
+                Cities = ctx.Cities.ToList();
             }
             catch (Exception ex)
             {
@@ -79,20 +77,18 @@ namespace LearningDataStorage
         {
             try
             {
-                using (ApplicationContext ctx = new ApplicationContext())
+                using ApplicationContext ctx = new ApplicationContext();
+                var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
+                if (book == null)
                 {
-                    var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
-                    if (book == null)
-                    {
-                        ctx.Books.Add(Book);
-                    }
-                    else
-                    {
-                        ctx.Entry(book).CurrentValues.SetValues(Book);
-                    }
-
-                    ctx.SaveChanges();
+                    ctx.Books.Add(Book);
                 }
+                else
+                {
+                    ctx.Entry(book).CurrentValues.SetValues(Book);
+                }
+
+                ctx.SaveChanges();
             }
             catch (Exception ex)
             {

@@ -64,19 +64,17 @@ namespace LearningDataStorage
             {                
                 await Task.Run(() =>
                 {
-                    using (ApplicationContext ctx = new ApplicationContext())
-                    {
-                        Books = ctx.Books
-                                .Include(book => book.BookCover)
-                                    .ThenInclude(cover => cover.File)
-                                .Include(book => book.PublishingHouse)
-                                .Include(book => book.City)
-                                .Include(book => book.Language)
-                                .Include(book => book.Authors)
-                                .Include(book => book.Ratings)
-                                    .ThenInclude(rating => rating.Site)
-                                .ToList();
-                    }
+                    using ApplicationContext ctx = new ApplicationContext();
+                    Books = ctx.Books
+                            .Include(book => book.BookCover)
+                                .ThenInclude(cover => cover.File)
+                            .Include(book => book.PublishingHouse)
+                            .Include(book => book.City)
+                            .Include(book => book.Language)
+                            .Include(book => book.Authors)
+                            .Include(book => book.Ratings)
+                                .ThenInclude(rating => rating.Site)
+                            .ToList();
                 });
 
                 IsBookOpen = true;
