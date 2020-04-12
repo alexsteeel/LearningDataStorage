@@ -7,7 +7,7 @@
         <materialDesign:Card>
             <Grid>
                 
-                <Image Source="{Binding OriginalBookEdition.BookCover.File.FullPath}"
+                <Image Source="{Binding BookCover.File.FullPath}"
                        Stretch="UniformToFill" />
                 
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
