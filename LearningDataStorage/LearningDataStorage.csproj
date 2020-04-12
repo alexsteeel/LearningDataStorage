@@ -45,6 +45,12 @@
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ViewModels_Views\City\CityEditTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModels_Views\City\CityPreviewTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ViewModels_Views\City\CitiesListView.xaml">
       <SubType>Designer</SubType>
     </Page>
