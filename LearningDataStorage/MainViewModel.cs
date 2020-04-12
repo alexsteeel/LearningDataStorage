@@ -14,17 +14,13 @@ namespace LearningDataStorage
 {
     public class MainViewModel : BindableBase
     {
-        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILog _log;
         private readonly ResourceDictionary _localization;
 
-        public MainViewModel(ISnackbarMessageQueue snackbarMessageQueue)
+        public MainViewModel(ISnackbarMessageQueue snackbarMessageQueue, ILog log, ResourceDictionary localization)
         {
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
-
-            _localization = Application.Current.Resources.MergedDictionaries
-               .Where(x => x.Source.OriginalString.Contains("Localizations/lang"))
-               .FirstOrDefault();
+            _log = log;
+            _localization = localization;
 
             try
             {
@@ -33,8 +29,7 @@ namespace LearningDataStorage
             catch (Exception ex)
             {
                 _log.Error($"{_localization["m_Er_InitMainMenuError"]}{_localization["m_Er_DetailedError"]}", ex);
-            }
-            
+            }            
         }        
 
         public ObservableCollection<MenuItem> Items { get; set; }
@@ -61,7 +56,9 @@ namespace LearningDataStorage
         private ObservableCollection<MenuItem> GenerateMenuItems(ISnackbarMessageQueue snackbarMessageQueue)
         {
             if (snackbarMessageQueue == null)
-                throw new ArgumentNullException(nameof(snackbarMessageQueue));
+            {
+                throw new ArgumentNullException(nameof(snackbarMessageQueue)); 
+            }
 
             return new ObservableCollection<MenuItem>
             {

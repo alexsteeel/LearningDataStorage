@@ -1,7 +1,12 @@
-﻿using System;
+﻿using log4net;
+using log4net.Config;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 
@@ -12,9 +17,16 @@ namespace LearningDataStorage
     /// </summary>
     public partial class App : Application
     {
+        private readonly ServiceProvider _serviceProvider;
+
         public App()
         {
             InitializeComponent();
+
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            _serviceProvider = serviceCollection.BuildServiceProvider();
+
             LanguageChanged += App_LanguageChanged;
 
             Languages.Clear();
@@ -36,21 +48,26 @@ namespace LearningDataStorage
             }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
-                if (value == Thread.CurrentThread.CurrentUICulture) return;
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                if (value == Thread.CurrentThread.CurrentUICulture)
+                {
+                    return;
+                }
 
                 Thread.CurrentThread.CurrentUICulture = value;
 
-                ResourceDictionary dict = new ResourceDictionary();
-                switch (value.Name)
+                ResourceDictionary dict = new ResourceDictionary
                 {
-                    case "ru-RU":
-                        dict.Source = new Uri(string.Format($"Resources/Localizations/lang.{value.Name}.xaml"), UriKind.Relative);
-                        break;
-                    default:
-                        dict.Source = new Uri("Resources/Localizations/lang.xaml", UriKind.Relative);
-                        break;
-                }
+                    Source = value.Name switch
+                    {
+                        "ru-RU" => new Uri(string.Format($"Resources/Localizations/lang.{value.Name}.xaml"), UriKind.Relative),
+                        _ => new Uri("Resources/Localizations/lang.xaml", UriKind.Relative),
+                    }
+                };
 
                 ResourceDictionary oldDict = (from d in Current.Resources.MergedDictionaries
                                               where d.Source != null && d.Source.OriginalString.StartsWith("Resources/Localizations/lang.")
@@ -74,6 +91,27 @@ namespace LearningDataStorage
         {
             LearningDataStorage.Properties.Settings.Default.DefaultLanguage = Language;
             LearningDataStorage.Properties.Settings.Default.Save();
+        }
+
+        private void ConfigureServices(IServiceCollection services)
+        {
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            var log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            services.AddSingleton(log);
+
+            var localization = Current.Resources.MergedDictionaries
+               .Where(x => x.Source.OriginalString.Contains("Localizations/lang"))
+               .FirstOrDefault();
+            services.AddSingleton(localization);
+
+            services.AddSingleton<MainWindow>();
+        }
+
+        private void OnStartup(object sender, StartupEventArgs e)
+        {
+            var mainWindow = _serviceProvider.GetService<MainWindow>();
+            mainWindow.Show();
         }
     }
 }
