@@ -33,7 +33,7 @@
 
     <Grid x:Name="root">
         <ListBox ItemsSource="{Binding Books}"
-                 IsEnabled="{Binding IsEnabled}"
+                 Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisConverter}}"
                  SelectedItem="{Binding SelectedBook}"
                  SelectionMode="Single"
                  Margin="16">
@@ -56,7 +56,6 @@
                         Visibility="{Binding IsBookOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         <local:Loader Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
 
         <Grid.ContextMenu>
             <ContextMenu>
