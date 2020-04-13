@@ -13,13 +13,21 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Learning Data Storage"
+        Title="{DynamicResource m_MainTitle}"
         WindowStartupLocation="CenterScreen"
         Height="800"
         Width="1100"
         MinHeight="400"
         MinWidth="600">
-    
+    <WindowChrome.WindowChrome>
+        <WindowChrome x:Name="chrome"
+                      CaptionHeight="0"
+                      CornerRadius="0"
+                      GlassFrameThickness="10"
+                      ResizeBorderThickness="6"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,7 +35,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <DataTemplate DataType="{x:Type local:BooksListViewModel}">
                 <local:BooksListView />
             </DataTemplate>
@@ -38,66 +46,136 @@
 
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <materialDesign:DialogHost Identifier="RootDialog"
                                    SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
             <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
                 <materialDesign:DrawerHost.LeftDrawerContent>
                     <DockPanel MinWidth="220">
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                       DockPanel.Dock="Top"
-                                      HorizontalAlignment="Right" 
+                                      HorizontalAlignment="Right"
                                       Margin="16"
                                       IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
 
                         <ListBox SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
                                  ItemsSource="{Binding Items}">
-                            
+
                             <ListBox.Resources>
-                                <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}"/>
+                                <Style TargetType="ScrollBar"
+                                       BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
                             </ListBox.Resources>
-                            
+
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="domain:MenuItem">
-                                    <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
+                                    <TextBlock Text="{Binding Name}"
+                                               Margin="32 0 32 0" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                            
+
                         </ListBox>
                     </DockPanel>
                 </materialDesign:DrawerHost.LeftDrawerContent>
-                
+
                 <DockPanel>
-                    <materialDesign:ColorZone Padding="16"
+                    <materialDesign:ColorZone Padding="12"
                                               materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                               Mode="PrimaryMid"
-                                              DockPanel.Dock="Top">
-                        <DockPanel>
-                            <ToggleButton x:Name="MenuToggleButton"
-                                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                                          IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"/>
+                                              DockPanel.Dock="Top"
+                                              MouseDoubleClick="ColorZone_MouseDoubleClick"
+                                              MouseDown="ColorZone_MouseDown">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
+                            <ToggleButton x:Name="MenuToggleButton"
+                                          Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                          IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="24"
+                                          Height="24"
+                                          Margin="5 0 0 0"/>
+
+                            <TextBlock Grid.Column="1"
                                        FontSize="18"
-                                       Text="{Binding SelectedItem.Name}"/>
-                        </DockPanel>
+                                       Text="{Binding SelectedItem.Name}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Margin="120 0 0 0"/>
+
+                            <StackPanel Grid.Column="2"
+                                        Orientation="Horizontal" >
+
+                                <Button Margin="0,0,10,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding ShowSettingsCommand}"
+                                        DockPanel.Dock="Right"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                        ToolTip="Settings">
+                                    <materialDesign:PackIcon Width="20"
+                                                             Height="20"
+                                                             Kind="Settings" />
+                                </Button>                                
+                            
+                            <Button x:Name="Minimize"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Click="Minimize_Click"
+                                    DockPanel.Dock="Right"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                    ToolTip="Minimize">
+                                <materialDesign:PackIcon Width="20"
+                                                         Height="20"
+                                                         Kind="WindowMinimize" />
+                            </Button>
+
+                                <Button x:Name="Maximize"
+                                        Margin="0,0,10,0"
+                                        VerticalAlignment="Center"
+                                        Click="Maximize_Click"
+                                        DockPanel.Dock="Right"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                        ToolTip="Maximize">
+                                    <materialDesign:PackIcon Width="20"
+                                                             Height="20"
+                                                             Kind="WindowMaximize" />
+                                </Button>
+
+
+                                <Button Name="Close"
+                                        Margin="0 0 10 0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding CloseCommand}"
+                                        CommandParameter="{Binding ElementName=MainViewWindow}"
+                                        DockPanel.Dock="Right"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                        ToolTip="Close">
+                                    <materialDesign:PackIcon Width="20"
+                                                             Height="20"
+                                                             Kind="Close" />
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
                     </materialDesign:ColorZone>
-                    
+
                     <Grid Margin="-16">
                         <ScrollViewer HorizontalScrollBarVisibility="{Binding SelectedItem.HorizontalScrollBarVisibilityRequirement}"
-                                      VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement}" 
-                                      Padding="{Binding SelectedItem.MarginRequirement}">                            
-                            <ContentControl Content="{Binding SelectedItem.ViewModel, UpdateSourceTrigger=PropertyChanged}"/>                        
+                                      VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement}"
+                                      Padding="{Binding SelectedItem.MarginRequirement}">
+                            <ContentControl Content="{Binding SelectedItem.ViewModel, UpdateSourceTrigger=PropertyChanged}" />
                         </ScrollViewer>
 
                         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                                  x:Name="MainSnackbar" />
                     </Grid>
-                    
+
                 </DockPanel>
-                
+
             </materialDesign:DrawerHost>
         </materialDesign:DialogHost>
     </Grid>

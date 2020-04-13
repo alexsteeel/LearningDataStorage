@@ -1,13 +1,10 @@
 ﻿using log4net;
-using log4net.Config;
 using MaterialDesignThemes.Wpf;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 
 namespace LearningDataStorage
@@ -22,6 +19,8 @@ namespace LearningDataStorage
             _log = log;
             _localization = localization;
 
+            CloseCommand = new DelegateCommand(Close);
+
             try
             {
                 Items = GenerateMenuItems(snackbarMessageQueue);
@@ -30,7 +29,7 @@ namespace LearningDataStorage
             {
                 _log.Error($"{_localization["m_Er_InitMainMenuError"]}{_localization["m_Er_DetailedError"]}", ex);
             }            
-        }        
+        }
 
         public ObservableCollection<MenuItem> Items { get; set; }
 
@@ -53,6 +52,8 @@ namespace LearningDataStorage
             }
         }
 
+        public DelegateCommand CloseCommand { get; private set; }
+
         private ObservableCollection<MenuItem> GenerateMenuItems(ISnackbarMessageQueue snackbarMessageQueue)
         {
             if (snackbarMessageQueue == null)
@@ -65,6 +66,11 @@ namespace LearningDataStorage
                 new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization)),
                 new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization))
             };
+        }
+
+        private void Close()
+        {
+            Environment.Exit(0);
         }
 
         public bool IsChecked { get; set; } = false;
