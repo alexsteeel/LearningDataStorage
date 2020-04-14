@@ -34,7 +34,7 @@
         <materialDesign:DialogHost HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    CloseOnClickAway="True"
-                                   Identifier="1"
+                                   Identifier="CityDialog"
                                    Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisConverter}}"
                                    IsOpen="{Binding IsDialogOpen}">
             <materialDesign:DialogHost.DialogContentTemplate>

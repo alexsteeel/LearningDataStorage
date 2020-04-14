@@ -87,12 +87,12 @@ namespace LearningDataStorage
             {
                 CountryId = Countries.FirstOrDefault()?.Id ?? 0
             };
-            await DialogHost.Show(SelectedCity, "1");
+            await DialogHost.Show(SelectedCity, "CityDialog");
         }
 
         private async void ChangeCity()
         {
-            await DialogHost.Show(SelectedCity, "1");
+            await DialogHost.Show(SelectedCity, "CityDialog");
         }
 
         private void SaveChanges()
