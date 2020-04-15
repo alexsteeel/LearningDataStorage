@@ -2,7 +2,7 @@
 
 namespace LearningDataStorage
 {
-    public interface IDialog
+    public interface IDialogPage
     {
         event EventHandler OnAccepted;
 

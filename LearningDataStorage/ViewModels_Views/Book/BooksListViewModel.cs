@@ -46,7 +46,7 @@ namespace LearningDataStorage
 
         public Book SelectedBook { get; set; }
 
-        public IDialog SelectedBookViewModel { get; set; }
+        public IDialogPage SelectedBookViewModel { get; set; }
         
         public bool IsBookOpen { get; set; }
 

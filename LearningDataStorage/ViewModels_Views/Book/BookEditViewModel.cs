@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace LearningDataStorage
 {
-    public class BookEditViewModel : BindableBase, IDialog
+    public class BookEditViewModel : BindableBase, IDialogPage
     {
         private readonly ILog _log;
         private readonly ResourceDictionary _localization;
