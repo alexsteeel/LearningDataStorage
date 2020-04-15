@@ -21,6 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="CommonUserControls\Dialogs\Message\MessageDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CommonUserControls\Dialogs\Alert\AlertDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CommonUserControls\Dialogs\Error\ErrorDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -42,6 +51,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="CommonUserControls\Dialogs\Message\MessageDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CommonUserControls\Dialogs\Alert\AlertDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CommonUserControls\Dialogs\Error\ErrorDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
       <SubType>Designer</SubType>
     </Page>

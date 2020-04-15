@@ -18,11 +18,10 @@
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal">
             <materialDesign:PackIcon Kind="QuestionMarkCircleOutline"
-                                     materialDesign:ColorZoneAssist.Mode="Accent"
                                      Width="28"
                                      Height="28"
                                      Margin="5 0 10 0"
-                                     Foreground="Orange"/>
+                                     Foreground="DarkOrange"/>
             <TextBlock Text="{Binding AnswerText}"
                        VerticalAlignment="Center"
                        TextWrapping="Wrap"
