@@ -36,7 +36,7 @@
     <v:String x:Key="m_Tl_UploadImage">Upload image</v:String>
 
     <!--Errors-->
-    <v:String x:Key="m_Er_DetailedError">/r/nDetailed error:/r/n</v:String>
+    <v:String x:Key="m_Er_DetailedError">/r/nDetailed error:\r\n</v:String>
     <v:String x:Key="m_Er_InitMainMenuError">Error loading main menu.</v:String>
     <v:String x:Key="m_Er_InitBooksError">Error loading books.</v:String>
     <v:String x:Key="m_Er_SaveBooksError">Error saving books.</v:String>

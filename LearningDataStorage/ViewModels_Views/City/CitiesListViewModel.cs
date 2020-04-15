@@ -3,27 +3,19 @@ using log4net;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearningDataStorage
 {
-    public class CitiesListViewModel : BindableBase, IInitialized, INotifyPropertyChanged
+    public class CitiesListViewModel : BaseViewModel, IInitialized
     {
-        private readonly ILog _log;
-        private readonly ResourceDictionary _localization;
-
-        public CitiesListViewModel(ILog log, ResourceDictionary localization)
+        public CitiesListViewModel(ILog log, ResourceDictionary localization, IDialog dialog) 
+            : base(log, localization, dialog)
         {
-            _log = log;
-            _localization = localization;
-
             Cities = new ObservableCollection<City>();
             Countries = new ObservableCollection<Country>();
 
@@ -32,19 +24,13 @@ namespace LearningDataStorage
             ChangeCityCommand = new DelegateCommand(ChangeCity);
         }
 
-        public DelegateCommand SaveCityCommand { get; set; }
-
-        public DelegateCommand AddCityCommand { get; set; }
-
-        public DelegateCommand ChangeCityCommand { get; set; }
-
         #region Properties
+
+        public City SelectedCity { get; set; }
 
         public ObservableCollection<City> Cities { get; set; }
 
         public ObservableCollection<Country> Countries { get; set; }
-
-        public City SelectedCity { get; set; }
 
         public bool IsLoading { get; set; }
 
@@ -52,6 +38,15 @@ namespace LearningDataStorage
 
         #endregion Properties
 
+        #region Commands
+
+        public DelegateCommand SaveCityCommand { get; set; }
+
+        public DelegateCommand AddCityCommand { get; set; }
+
+        public DelegateCommand ChangeCityCommand { get; set; }
+
+        #endregion Commands
 
         #region Methods
 
@@ -73,7 +68,9 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                _log.Error($"{_localization["m_Er_InitCitiesError"]}{_localization["m_Er_DetailedError"]}", ex);
+                var errorText = $"{_localization["m_Er_InitCitiesError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }
             finally
             {
@@ -87,6 +84,7 @@ namespace LearningDataStorage
             {
                 CountryId = Countries.FirstOrDefault()?.Id ?? 0
             };
+
             await DialogHost.Show(SelectedCity, "CityDialog");
         }
 
@@ -116,7 +114,9 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                _log.Error($"{_localization["m_Er_SaveCitiesError"]}{_localization["m_Er_DetailedError"]}", ex);
+                var errorText = $"{_localization["m_Er_SaveCitiesError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }
             finally 
             {

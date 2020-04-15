@@ -2,7 +2,6 @@
 using log4net;
 using Microsoft.Win32;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +9,11 @@ using System.Windows;
 
 namespace LearningDataStorage
 {
-    public class BookEditViewModel : BindableBase, IDialogPage
+    public class BookEditViewModel : BaseViewModel, IDialogPage
     {
-        private readonly ILog _log;
-        private readonly ResourceDictionary _localization;
-
-        public BookEditViewModel(Book book, ILog log, ResourceDictionary localization)
+        public BookEditViewModel(Book book, ILog log, ResourceDictionary localization, IDialog dialog)
+            : base (log, localization, dialog)
         {
-            _log = log;
-            _localization = localization;
-
             PrepareBook(book);
             GetCollections();
 
@@ -27,6 +21,32 @@ namespace LearningDataStorage
             LoadBookCoverCommand = new DelegateCommand(LoadBookCover);
             CancelCommand = new DelegateCommand(Cancel);
         }
+
+        #region Properties
+
+        public Book Book { get; set; }
+
+        public bool IsEditMode { get; set; }
+
+        public ICollection<Language> Languages { get; set; }
+
+        public ICollection<PublishingHouse> PublishingHouses { get; set; }
+
+        public ICollection<City> Cities { get; set; }
+
+        #endregion Properties
+
+        #region Commands
+
+        public DelegateCommand SaveCommand { get; set; }
+
+        public DelegateCommand CancelCommand { get; set; }
+
+        public DelegateCommand LoadBookCoverCommand { get; set; }
+
+        #endregion Commands
+
+        #region Methods
 
         private void GetCollections()
         {
@@ -39,7 +59,9 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                _log.Error($"{_localization["m_Er_LoadDataError"]}{_localization["m_Er_DetailedError"]}", ex);
+                var errorText = $"{_localization["m_Er_LoadDataError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }
         }
 
@@ -57,16 +79,6 @@ namespace LearningDataStorage
                 Book = book;
             }
         }
-
-        #region Properties
-
-        public ICollection<Language> Languages { get; set; }
-
-        public ICollection<PublishingHouse> PublishingHouses { get; set; }
-
-        public ICollection<City> Cities { get; set; }
-
-        #endregion Properties
 
         private bool CanSaveChanges()
         {
@@ -92,7 +104,9 @@ namespace LearningDataStorage
             }
             catch (Exception ex)
             {
-                _log.Error($"{_localization["m_Er_SaveBooksError"]}{_localization["m_Er_DetailedError"]}", ex);
+                var errorText = $"{_localization["m_Er_SaveBooksError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }            
         }
 
@@ -101,21 +115,6 @@ namespace LearningDataStorage
             OnCanceled?.Invoke(this, EventArgs.Empty);
         }
 
-        public Book Book { get; set; }
-
-        public bool IsEditMode { get; set; }
-
-        public DelegateCommand SaveCommand { get; set; }
-
-        public DelegateCommand CancelCommand { get; set; }
-
-        public event EventHandler OnAccepted;
-
-        public event EventHandler OnCanceled;
-
-        public DelegateCommand LoadBookCoverCommand { get; set; }
-
-        
         private void LoadBookCover()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -125,5 +124,12 @@ namespace LearningDataStorage
                 fileLoader.LoadBookCover(openFileDialog.FileName, Book.Id);
             }
         }
+
+        #endregion Methods
+
+        public event EventHandler OnAccepted;
+
+        public event EventHandler OnCanceled;
+
     }
 }

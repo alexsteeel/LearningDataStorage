@@ -9,21 +9,16 @@ using System.Windows;
 
 namespace LearningDataStorage
 {
-    public class MainViewModel : BindableBase
+    public class MainViewModel : BaseViewModel
     {
-        private readonly ILog _log;
-        private readonly ResourceDictionary _localization;
-
-        public MainViewModel(ISnackbarMessageQueue snackbarMessageQueue, ILog log, ResourceDictionary localization)
+        public MainViewModel(ILog log, ResourceDictionary localization, IDialog dialog)
+            : base (log, localization, dialog)
         {
-            _log = log;
-            _localization = localization;
-
             CloseCommand = new DelegateCommand(Close);
 
             try
             {
-                Items = GenerateMenuItems(snackbarMessageQueue);
+                Items = GenerateMenuItems();
             }
             catch (Exception ex)
             {
@@ -54,17 +49,12 @@ namespace LearningDataStorage
 
         public DelegateCommand CloseCommand { get; private set; }
 
-        private ObservableCollection<MenuItem> GenerateMenuItems(ISnackbarMessageQueue snackbarMessageQueue)
+        private ObservableCollection<MenuItem> GenerateMenuItems()
         {
-            if (snackbarMessageQueue == null)
-            {
-                throw new ArgumentNullException(nameof(snackbarMessageQueue)); 
-            }
-
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization)),
-                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization))
+                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization, _dialog)),
+                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization, _dialog))
             };
         }
 

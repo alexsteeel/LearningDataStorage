@@ -11,16 +11,11 @@ using System.Windows;
 
 namespace LearningDataStorage
 {
-    public class BooksListViewModel : BindableBase, IInitialized
+    public class BooksListViewModel : BaseViewModel, IInitialized
     {
-        private readonly ILog _log;
-        private readonly ResourceDictionary _localization;
-
-        public BooksListViewModel(ILog log, ResourceDictionary localization)
+        public BooksListViewModel(ILog log, ResourceDictionary localization, IDialog dialog)
+            : base (log, localization, dialog)
         {
-            _log = log;
-            _localization = localization;
-
             Books = new List<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
             AddBookCommand = new DelegateCommand(AddBook);
@@ -91,7 +86,7 @@ namespace LearningDataStorage
 
         private void ShowBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(SelectedBook, _log, _localization);
+            SelectedBookViewModel = new BookEditViewModel(SelectedBook, _log, _localization, _dialog);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;
@@ -99,7 +94,7 @@ namespace LearningDataStorage
 
         private void AddBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(null, _log, _localization);
+            SelectedBookViewModel = new BookEditViewModel(null, _log, _localization, _dialog);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;

@@ -13,11 +13,11 @@ namespace LearningDataStorage
     {
         public static Snackbar Snackbar;
 
-        public MainWindow(ILog log, ResourceDictionary localization)
+        public MainWindow(ILog log, ResourceDictionary localization, IDialog dialog)
         {
             InitializeComponent();
 
-            var vm = new MainViewModel(MainSnackbar.MessageQueue, log, localization);
+            var vm = new MainViewModel(log, localization, dialog);
             DataContext = vm;
 
             Snackbar = this.MainSnackbar;

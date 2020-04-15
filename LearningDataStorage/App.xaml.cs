@@ -98,12 +98,14 @@ namespace LearningDataStorage
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
             var log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-            services.AddSingleton(log);
+            services.AddSingleton<ILog>(log);
 
             var localization = Current.Resources.MergedDictionaries
                .Where(x => x.Source.OriginalString.Contains("Localizations/lang"))
                .FirstOrDefault();
             services.AddSingleton(localization);
+
+            services.AddSingleton<IDialog>(new Dialog());
 
             services.AddSingleton<MainWindow>();
         }

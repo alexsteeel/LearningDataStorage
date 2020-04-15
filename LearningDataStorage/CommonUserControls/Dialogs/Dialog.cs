@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace LearningDataStorage
 {
-    public class Dialog
+    public class Dialog : IDialog
     {
         public async Task<bool> Answer(string answerText)
         {
@@ -13,7 +13,7 @@ namespace LearningDataStorage
             };
 
             var result = await DialogHost.Show(view, "RootDialog");
-            
+
             return (bool)result;
         }
 
