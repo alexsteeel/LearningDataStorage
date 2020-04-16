@@ -31,13 +31,9 @@ namespace LearningDataStorage.DAL
             var fileName = Path.GetFileName(sourceFilePath);
             var destPath = $"{fileServerString}\\{destServerFolder}\\{fileName}";
 
-            using (FileStream SourceStream = File.Open(sourceFilePath, FileMode.Open))
-            {                
-                using (FileStream DestinationStream = File.Create(destPath))
-                {
-                    await SourceStream.CopyToAsync(DestinationStream);
-                }
-            }
+            using FileStream SourceStream = File.Open(sourceFilePath, FileMode.Open);
+            using FileStream DestinationStream = File.Create(destPath);
+            await SourceStream.CopyToAsync(DestinationStream);
         }
 
         /// <summary>
@@ -55,16 +51,14 @@ namespace LearningDataStorage.DAL
             var sp = new StoredProcedure();
             var fileGuid = sp.GetBookCoverGuid(fileName);
 
-            using (ApplicationContext ctx = new ApplicationContext())
-            {
-                var dbFile = new DbFile(fileGuid, bookCovers, fileName, fileType);
-                ctx.DbFiles.Add(dbFile);
-                ctx.SaveChanges();
+            using ApplicationContext ctx = new ApplicationContext();
+            var dbFile = new DbFile(fileGuid, bookCovers, fileName, fileType);
+            ctx.DbFiles.Add(dbFile);
+            ctx.SaveChanges();
 
-                var bookCover = new BookCover(dbFile.Id, bookId);
-                ctx.BookCovers.Add(bookCover);
-                ctx.SaveChanges();
-            }
+            var bookCover = new BookCover(dbFile.Id, bookId);
+            ctx.BookCovers.Add(bookCover);
+            ctx.SaveChanges();
         }
     }
 }
