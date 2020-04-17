@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29911.98
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningDataStorage", "LearningDataStorage\LearningDataStorage.csproj", "{F1EDFE4C-5D49-4BE8-8D8E-25A3F80A489C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningDataStorage.DAL", "LearningDataStorage.DAL\LearningDataStorage.DAL.csproj", "{0B679246-4582-46BC-BABE-D2BD1534ACAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningDataStorage.DAL", "LearningDataStorage.DAL\LearningDataStorage.DAL.csproj", "{0B679246-4582-46BC-BABE-D2BD1534ACAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningDataStorage.Core", "LearningDataStorage.Core\LearningDataStorage.Core.csproj", "{873123AC-54A0-4898-9001-5D7A3DFF78D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0B679246-4582-46BC-BABE-D2BD1534ACAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B679246-4582-46BC-BABE-D2BD1534ACAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B679246-4582-46BC-BABE-D2BD1534ACAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{873123AC-54A0-4898-9001-5D7A3DFF78D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873123AC-54A0-4898-9001-5D7A3DFF78D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873123AC-54A0-4898-9001-5D7A3DFF78D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873123AC-54A0-4898-9001-5D7A3DFF78D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

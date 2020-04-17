@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using LearningDataStorage.Core.Models;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LearningDataStorage.DAL

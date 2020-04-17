@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200401185742_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200407194413_InitDatabase.cs" />
     <Compile Remove="Migrations\20200407194413_InitDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200411174347_InitDatabase.cs" />
+    <Compile Remove="Migrations\20200411174347_InitDatabase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +21,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LearningDataStorage.Core\LearningDataStorage.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

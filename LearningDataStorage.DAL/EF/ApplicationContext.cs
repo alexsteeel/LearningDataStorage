@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LearningDataStorage.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IO;
@@ -9,59 +10,26 @@ namespace LearningDataStorage.DAL
     {
         #region DbSets
 
-        /// <summary>
-        /// Авторы.
-        /// </summary>
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<BookAuthorPhoto> AuthorPhoto { get; set; }
+
+        public DbSet<BookAuthor> Authors { get; set; }
         
-        /// <summary>
-        /// Книги.
-        /// </summary>
         public DbSet<Book> Books { get; set; }
 
-        /// <summary>
-        /// Издательства.
-        /// </summary>
         public DbSet<PublishingHouse> PublishingHouses { get; set; }
 
-        /// <summary>
-        /// Заметки.
-        /// </summary>
-        public DbSet<Note> Notes { get; set; }
+        public DbSet<BookNote> Notes { get; set; }
 
-        /// <summary>
-        /// Цитаты.
-        /// </summary>
         public DbSet<BookQuote> Quotes { get; set; }
 
-        /// <summary>
-        /// Страны.
-        /// </summary>
         public DbSet<Country> Countries { get; set; }
 
-        /// <summary>
-        /// Города.
-        /// </summary>
         public DbSet<City> Cities { get; set; }
 
-        /// <summary>
-        /// Языки.
-        /// </summary>
         public DbSet<Language> Languages { get; set; }
 
-        /// <summary>
-        /// Обложки книг.
-        /// </summary>
         public DbSet<BookCover> BookCovers { get; set; }
 
-        /// <summary>
-        /// Фотографии авторов.
-        /// </summary>
-        public DbSet<AuthorPhoto> AuthorPhoto { get; set; }
-
-        /// <summary>
-        /// Файлы.
-        /// </summary>
         public DbSet<DbFile> DbFiles { get; set; }
 
         #endregion DbSets
@@ -87,21 +55,46 @@ namespace LearningDataStorage.DAL
             return connectionString;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            // https://www.iban.com/country-codes
-            modelBuilder.Entity<Country>()
+            // Book
+            builder.ApplyConfiguration(new BookAuthorConfiguration());
+            builder.ApplyConfiguration(new BookAuthorLinkConfiguration());
+            builder.ApplyConfiguration(new BookAuthorPhotoConfiguration());
+            builder.ApplyConfiguration(new BookCategoryConfiguration());
+            builder.ApplyConfiguration(new BookConfiguration());
+            builder.ApplyConfiguration(new BookCoverConfiguration());
+            builder.ApplyConfiguration(new BookQuoteConfiguration());
+            builder.ApplyConfiguration(new BookRatingConfiguration());
+            builder.ApplyConfiguration(new PublishingHouseConfiguration());
+
+            // Common
+            builder.ApplyConfiguration(new CityConfiguration());
+            builder.ApplyConfiguration(new CountryConfiguration());
+            builder.ApplyConfiguration(new LanguageConfiguration());
+
+            // Site
+            builder.ApplyConfiguration(new LinkConfiguration());
+            builder.ApplyConfiguration(new SiteConfiguration());
+
+            // Other
+            builder.ApplyConfiguration(new DbFileConfiguration());
+            builder.ApplyConfiguration(new BookNoteConfiguration());
+            
+
+            // from https://www.iban.com/country-codes
+            builder.Entity<Country>()
                 .HasData(
                     new Country(1, "Russian Federation", "RUS"),                    
-                    new Country(2, "United States of America (the)", "USA")
+                    new Country(2, "United States of America", "USA")
                 );
 
-            modelBuilder.Entity<City>()
+            builder.Entity<City>()
                 .HasData(
                     new City(1, "Moscow", 1)
                 );
 
-            modelBuilder.Entity<Language>()
+            builder.Entity<Language>()
                 .HasData(
                     new Language(1, "English", "eng"),
                     new Language(2, "Russian", "rus")
