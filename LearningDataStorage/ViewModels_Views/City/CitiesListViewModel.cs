@@ -1,4 +1,5 @@
-﻿using LearningDataStorage.DAL;
+﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.DAL;
 using log4net;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;

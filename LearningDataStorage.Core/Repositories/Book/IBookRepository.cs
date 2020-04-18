@@ -8,7 +8,5 @@ namespace LearningDataStorage.Core.Repositories
     {
         Task<IEnumerable<Book>> GetAllWithContainDataAsync();
 
-        Task<Book> GetWithContainDataByIdAsync(int id);
-
     }
 }

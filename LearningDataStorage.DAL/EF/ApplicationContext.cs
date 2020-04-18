@@ -1,8 +1,5 @@
 ﻿using LearningDataStorage.Core.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.IO;
 
 namespace LearningDataStorage.DAL
 {
@@ -36,25 +33,14 @@ namespace LearningDataStorage.DAL
 
         public ApplicationContext()
         {
+        }
+
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
+        {
             
         }
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            string connectionString = GetConnectionString();
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-
-        private string GetConnectionString()
-        {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("appsettings.json");
-            var config = builder.Build();
-            string connectionString = config.GetConnectionString("DefaultConnection");
-            return connectionString;
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Book
@@ -80,12 +66,16 @@ namespace LearningDataStorage.DAL
             // Other
             builder.ApplyConfiguration(new DbFileConfiguration());
             builder.ApplyConfiguration(new BookNoteConfiguration());
-            
 
+            InsertData(builder);
+        }
+
+        private void InsertData(ModelBuilder builder)
+        {
             // from https://www.iban.com/country-codes
             builder.Entity<Country>()
                 .HasData(
-                    new Country(1, "Russian Federation", "RUS"),                    
+                    new Country(1, "Russian Federation", "RUS"),
                     new Country(2, "United States of America", "USA")
                 );
 

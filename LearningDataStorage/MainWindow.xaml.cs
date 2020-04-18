@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.Core.Services;
+using log4net;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows;
@@ -13,11 +15,11 @@ namespace LearningDataStorage
     {
         public static Snackbar Snackbar;
 
-        public MainWindow(ILog log, ResourceDictionary localization, IDialog dialog)
+        public MainWindow(ILog log, ResourceDictionary localization, IDialog dialog, IService<Book> _bookService, IService<Country> _countryService)
         {
             InitializeComponent();
 
-            var vm = new MainViewModel(log, localization, dialog);
+            var vm = new MainViewModel(log, localization, dialog, _bookService, _countryService);
             DataContext = vm;
 
             Snackbar = this.MainSnackbar;

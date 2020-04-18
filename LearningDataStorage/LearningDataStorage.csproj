@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LearningDataStorage.Core\LearningDataStorage.Core.csproj" />
     <ProjectReference Include="..\LearningDataStorage.DAL\LearningDataStorage.DAL.csproj" />
   </ItemGroup>
 
@@ -35,12 +36,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Update="ViewModels_Views\Country\CountriesListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModels_Views\City\CitiesListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.sample.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -61,6 +71,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModels_Views\Country\CountriesListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModels_Views\Country\CountryEditTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModels_Views\Country\CountryPreviewTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModels_Views\City\CityEditTemplate.xaml">

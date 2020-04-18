@@ -1,4 +1,5 @@
-﻿using LearningDataStorage.DAL;
+﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.DAL;
 using log4net;
 using Microsoft.Win32;
 using Prism.Commands;
@@ -120,8 +121,9 @@ namespace LearningDataStorage
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                var fileLoader = new FileLoader();
-                fileLoader.LoadBookCover(openFileDialog.FileName, Book.Id);
+                // TODO: add loading of book cover.
+                //var fileLoader = new FileLoader();
+                //fileLoader.LoadBookCover(openFileDialog.FileName, Book.Id);
             }
         }
 

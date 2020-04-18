@@ -1,7 +1,7 @@
-﻿using log4net;
-using MaterialDesignThemes.Wpf;
+﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.Core.Services;
+using log4net;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,10 +11,16 @@ namespace LearningDataStorage
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel(ILog log, ResourceDictionary localization, IDialog dialog)
+        private readonly IService<Book> _bookService;
+        private readonly IService<Country> _countryService;
+
+        public MainViewModel(ILog log, ResourceDictionary localization, IDialog dialog, IService<Book> bookService, IService<Country> countryService)
             : base (log, localization, dialog)
         {
             CloseCommand = new DelegateCommand(Close);
+
+            _bookService = bookService;
+            _countryService = countryService;
 
             try
             {
@@ -53,8 +59,9 @@ namespace LearningDataStorage
         {
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization, _dialog)),
-                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization, _dialog))
+                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization, _dialog, _bookService)),
+                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization, _dialog)),
+                new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_log, _localization, _dialog, _countryService))
             };
         }
 

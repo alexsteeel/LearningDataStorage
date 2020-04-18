@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace LearningDataStorage
 {
-    public partial class CitiesListView : UserControl
+    public partial class CountriesListView : UserControl
     {
-        public CitiesListView()
+        public CountriesListView()
         {
             InitializeComponent();
         }

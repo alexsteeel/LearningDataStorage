@@ -1,22 +1,23 @@
-﻿using LearningDataStorage.DAL;
+﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.Core.Services;
 using log4net;
-using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace LearningDataStorage
 {
     public class BooksListViewModel : BaseViewModel, IInitialized
     {
-        public BooksListViewModel(ILog log, ResourceDictionary localization, IDialog dialog)
+        private readonly IService<Book> _bookService;
+
+        public BooksListViewModel(ILog log, ResourceDictionary localization, IDialog dialog, IService<Book> bookService)
             : base (log, localization, dialog)
         {
-            Books = new List<Book>();
+            _bookService = bookService;
+
+            Books = new ObservableCollection<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
             AddBookCommand = new DelegateCommand(AddBook);
         }
@@ -37,7 +38,7 @@ namespace LearningDataStorage
 
         #region Properties
 
-        public List<Book> Books { get; set; }
+        public ObservableCollection<Book> Books { get; set; }
 
         public Book SelectedBook { get; set; }
 
@@ -57,26 +58,15 @@ namespace LearningDataStorage
             IsLoading = true;
             try
             {                
-                await Task.Run(() =>
-                {
-                    using ApplicationContext ctx = new ApplicationContext();
-                    Books = ctx.Books
-                            .Include(book => book.BookCover)
-                                .ThenInclude(cover => cover.File)
-                            .Include(book => book.PublishingHouse)
-                            .Include(book => book.City)
-                            .Include(book => book.Language)
-                            .Include(book => book.Authors)
-                            .Include(book => book.Ratings)
-                                .ThenInclude(rating => rating.Site)
-                            .ToList();
-                });
-
+                var books = await _bookService.GetAll();
+                Books = new ObservableCollection<Book>(books);
                 IsBookOpen = true;
             }
             catch (Exception ex)
             {
-                _log.Error($"{_localization["m_Er_InitBooksError"]}{_localization["m_Er_DetailedError"]}", ex);
+                var errorText = $"{_localization["m_Er_InitBooksError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }
             finally
             {

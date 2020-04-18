@@ -8,9 +8,9 @@ namespace LearningDataStorage.Core.Repositories
     {
         IBookRepository Books { get; }
 
-        IRepository<City> Cities { get; set; }
+        IRepository<City> Cities { get; }
 
-        IRepository<Country> Countries { get; set; }
+        IRepository<Country> Countries { get; }
 
         Task<int> CommitAsync();
     }

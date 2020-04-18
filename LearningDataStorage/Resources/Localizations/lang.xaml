@@ -31,18 +31,21 @@
     <v:String x:Key="m_Cm_SearchAuthor">Search author</v:String>
     <v:String x:Key="m_Cm_AddBook">Add book</v:String>
     <v:String x:Key="m_Cm_AddCity">Add city</v:String>
+    <v:String x:Key="m_Cm_AddCountry">Add country</v:String>
     
     <!--Tooltips-->
     <v:String x:Key="m_Tl_UploadImage">Upload image</v:String>
 
     <!--Errors-->
-    <v:String x:Key="m_Er_DetailedError">/r/nDetailed error:\r\n</v:String>
+    <v:String x:Key="m_Er_DetailedError">\r\nDetailed error:\r\n</v:String>
     <v:String x:Key="m_Er_InitMainMenuError">Error loading main menu.</v:String>
     <v:String x:Key="m_Er_InitBooksError">Error loading books.</v:String>
     <v:String x:Key="m_Er_SaveBooksError">Error saving books.</v:String>
     <v:String x:Key="m_Er_LoadDataError">Error loading data from database.</v:String>
     <v:String x:Key="m_Er_InitCitiesError">Error loading cities.</v:String>
     <v:String x:Key="m_Er_SaveCitiesError">Error saving cities.</v:String>
+    <v:String x:Key="m_Er_InitCountriesError">Error loading countries.</v:String>
+    <v:String x:Key="m_Er_SaveCountriesError">Error saving countries.</v:String>
 
 
 </ResourceDictionary>

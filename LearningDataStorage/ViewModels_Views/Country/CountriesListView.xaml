@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="LearningDataStorage.CountriesListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LearningDataStorage"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:dal="clr-namespace:LearningDataStorage.DAL;assembly=LearningDataStorage.DAL"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Loaded="UserControl_Loaded"
+             Focusable="True">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CountryPreviewTemplate.xaml" />
+                <ResourceDictionary Source="CountryEditTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Ctrl"
+                    Key="S"
+                    Command="{Binding SaveCommand}" />
+    </UserControl.InputBindings>
+
+    <Grid x:Name="root">
+        <materialDesign:DialogHost HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   CloseOnClickAway="True"
+                                   Identifier="CountryDialog"
+                                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisConverter}}"
+                                   IsOpen="{Binding IsDialogOpen}">
+            <materialDesign:DialogHost.DialogContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}"
+                                    ContentTemplate="{StaticResource CountryEditTemplate}"/>
+                </DataTemplate>
+            </materialDesign:DialogHost.DialogContentTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                <ListBox ItemsSource="{Binding Countries}"
+                         SelectedItem="{Binding SelectedCountry}"
+                         ItemTemplate="{StaticResource CountryPreviewTemplate}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding ChangeCountryCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
+                    
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            Command="{Binding AddCountryCommand}"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Grid.Row="0"
+                            Margin="0 0 20 20">
+                        <materialDesign:PackIcon Kind="Plus"
+                                                 Height="25"
+                                                 Width="25" />
+                    </Button>
+                </Grid>
+        </materialDesign:DialogHost>
+
+        <local:Loader Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        
+    </Grid>
+</UserControl>

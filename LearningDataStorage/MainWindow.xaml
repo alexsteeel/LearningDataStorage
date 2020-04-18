@@ -44,6 +44,10 @@
                 <local:CitiesListView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type local:CountriesListViewModel}">
+                <local:CountriesListView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -70,7 +74,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="domain:MenuItem">
                                     <TextBlock Text="{Binding Name}"
-                                               Margin="32 0 32 0" />
+                                               Margin="32 0 32 0" 
+                                               FontSize="16"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
 
