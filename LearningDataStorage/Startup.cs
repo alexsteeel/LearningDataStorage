@@ -115,11 +115,14 @@ namespace LearningDataStorage
             services.AddSingleton(localization);
 
             services.AddSingleton<IDialog>(new Dialog());
-
-            services.AddSingleton<MainWindow>();
+            
+            services.AddScoped<IMainContainer, MainContainer>();
+            services.AddScoped<IServicesContainer, ServicesContainer>();
 
             services.AddTransient<IService<Book>, BookService>();
             services.AddTransient<IService<Country>, CountryService>();
+
+            services.AddSingleton<MainWindow>();
         }
 
         public void Start()

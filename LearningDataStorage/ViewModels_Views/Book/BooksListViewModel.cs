@@ -1,10 +1,8 @@
 ﻿using LearningDataStorage.Core.Models;
 using LearningDataStorage.Core.Services;
-using log4net;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace LearningDataStorage
 {
@@ -12,10 +10,10 @@ namespace LearningDataStorage
     {
         private readonly IService<Book> _bookService;
 
-        public BooksListViewModel(ILog log, ResourceDictionary localization, IDialog dialog, IService<Book> bookService)
-            : base (log, localization, dialog)
+        public BooksListViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer)
+            : base (mainContainer)
         {
-            _bookService = bookService;
+            _bookService = servicesContainer.BookService;
 
             Books = new ObservableCollection<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
@@ -76,7 +74,7 @@ namespace LearningDataStorage
 
         private void ShowBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(SelectedBook, _log, _localization, _dialog);
+            SelectedBookViewModel = new BookEditViewModel(_mainContainer, SelectedBook);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;
@@ -84,7 +82,7 @@ namespace LearningDataStorage
 
         private void AddBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(null, _log, _localization, _dialog);
+            SelectedBookViewModel = new BookEditViewModel(_mainContainer, null);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;

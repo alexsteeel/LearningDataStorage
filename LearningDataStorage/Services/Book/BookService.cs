@@ -20,6 +20,11 @@ namespace LearningDataStorage.Services
                 .GetAllWithContainDataAsync();
         }
 
+        public async Task<Book> GetById(int id)
+        {
+            return await _unitOfWork.Books.GetByIdAsync(id);
+        }
+
         public async Task<Book> Create(Book newBook)
         {
             await _unitOfWork.Books.AddAsync(newBook);

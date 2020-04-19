@@ -11,16 +11,14 @@ namespace LearningDataStorage
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly IService<Book> _bookService;
-        private readonly IService<Country> _countryService;
+        private readonly IServicesContainer _servicesContainer;
 
-        public MainViewModel(ILog log, ResourceDictionary localization, IDialog dialog, IService<Book> bookService, IService<Country> countryService)
-            : base (log, localization, dialog)
+        public MainViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer)
+            : base (mainContainer)
         {
-            CloseCommand = new DelegateCommand(Close);
+            _servicesContainer = servicesContainer;
 
-            _bookService = bookService;
-            _countryService = countryService;
+            CloseCommand = new DelegateCommand(Close);
 
             try
             {
@@ -59,9 +57,9 @@ namespace LearningDataStorage
         {
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_log, _localization, _dialog, _bookService)),
-                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_log, _localization, _dialog)),
-                new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_log, _localization, _dialog, _countryService))
+                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_mainContainer, _servicesContainer)),
+                new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_mainContainer, _servicesContainer)),
+                new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_mainContainer, _servicesContainer))
             };
         }
 

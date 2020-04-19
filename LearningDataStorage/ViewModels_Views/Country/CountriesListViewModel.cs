@@ -15,10 +15,10 @@ namespace LearningDataStorage
     {
         private readonly IService<Country> _countryService;
 
-        public CountriesListViewModel(ILog log, ResourceDictionary localization, IDialog dialog, IService<Country> countryService) 
-            : base(log, localization, dialog)
+        public CountriesListViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer) 
+            : base(mainContainer)
         {
-            _countryService = countryService;
+            _countryService = servicesContainer.CountryService;
 
             Countries = new ObservableCollection<Country>();
 

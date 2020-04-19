@@ -1,4 +1,5 @@
 ﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.Core.Services;
 using LearningDataStorage.DAL;
 using log4net;
 using MaterialDesignThemes.Wpf;
@@ -14,9 +15,15 @@ namespace LearningDataStorage
 {
     public class CitiesListViewModel : BaseViewModel, IInitialized
     {
-        public CitiesListViewModel(ILog log, ResourceDictionary localization, IDialog dialog) 
-            : base(log, localization, dialog)
+        private readonly IService<City> _cityService;
+        private readonly IService<Country> _countryService;
+
+        public CitiesListViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer) 
+            : base(mainContainer)
         {
+            _cityService = servicesContainer.CityService;
+            _countryService = servicesContainer.CountryService;
+
             Cities = new ObservableCollection<City>();
             Countries = new ObservableCollection<Country>();
 
@@ -56,16 +63,11 @@ namespace LearningDataStorage
             IsLoading = true;
             try
             {
-                await Task.Run(() =>
-                {
-                    using ApplicationContext ctx = new ApplicationContext();
-                    Cities = new ObservableCollection<City>(ctx.Cities
-                            .Include(city => city.Country)
-                            .ToList());
+                var cities = await _cityService.GetAll();
+                var countries = await _countryService.GetAll();
 
-                    Countries = new ObservableCollection<Country>(ctx.Countries
-                                .ToList());
-                });
+                Cities = new ObservableCollection<City>(cities);
+                Countries = new ObservableCollection<Country>(countries);
             }
             catch (Exception ex)
             {
@@ -94,24 +96,20 @@ namespace LearningDataStorage
             await DialogHost.Show(SelectedCity, "CityDialog");
         }
 
-        private void SaveChanges()
+        private async void SaveChanges()
         {
             try
             {
-                using ApplicationContext ctx = new ApplicationContext();
-
                 if (SelectedCity.Id != 0)
                 {
-                    ctx.Cities.Update(SelectedCity);
+                    var city = await _cityService.GetById(SelectedCity.Id);
+                    await _cityService.Update(city, SelectedCity);
                 }
                 else
                 {
-                    ctx.Entry(SelectedCity).State = EntityState.Added;
-                    ctx.Cities.Add(SelectedCity);
+                    await _cityService.Create(SelectedCity);
                     Cities.Add(SelectedCity);
                 }
-
-                ctx.SaveChanges();
             }
             catch (Exception ex)
             {

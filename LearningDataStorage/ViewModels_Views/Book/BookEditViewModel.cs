@@ -12,8 +12,8 @@ namespace LearningDataStorage
 {
     public class BookEditViewModel : BaseViewModel, IDialogPage
     {
-        public BookEditViewModel(Book book, ILog log, ResourceDictionary localization, IDialog dialog)
-            : base (log, localization, dialog)
+        public BookEditViewModel(IMainContainer mainContainer, Book book)
+            : base (mainContainer)
         {
             PrepareBook(book);
             GetCollections();

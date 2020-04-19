@@ -19,6 +19,11 @@ namespace LearningDataStorage.Services
             return await _unitOfWork.Countries.GetAllAsync();
         }
 
+        public async Task<Country> GetById(int id)
+        {
+            return await _unitOfWork.Countries.GetByIdAsync(id);
+        }
+
         public async Task<Country> Create(Country newCountry)
         {
             await _unitOfWork.Countries.AddAsync(newCountry);
