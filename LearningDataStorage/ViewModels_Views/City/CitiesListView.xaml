@@ -33,7 +33,6 @@
     <Grid x:Name="root">
         <materialDesign:DialogHost HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
-                                   CloseOnClickAway="True"
                                    Identifier="CityDialog"
                                    Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisConverter}}"
                                    IsOpen="{Binding IsDialogOpen}">
