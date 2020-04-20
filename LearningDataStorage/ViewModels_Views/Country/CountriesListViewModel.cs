@@ -83,24 +83,20 @@ namespace LearningDataStorage
             await DialogHost.Show(SelectedCountry, "CountryDialog");
         }
 
-        private void SaveChanges()
+        private async void SaveChanges()
         {
             try
             {
-                using ApplicationContext ctx = new ApplicationContext();
-
                 if (SelectedCountry.Id != 0)
                 {
-                    ctx.Countries.Update(SelectedCountry);
+                    var country = await _countryService.GetById(SelectedCountry.Id);
+                    await _countryService.Update(country, SelectedCountry);
                 }
                 else
                 {
-                    ctx.Entry(SelectedCountry).State = EntityState.Added;
-                    ctx.Countries.Add(SelectedCountry);
+                    await _countryService.Create(SelectedCountry);
                     Countries.Add(SelectedCountry);
                 }
-
-                ctx.SaveChanges();
             }
             catch (Exception ex)
             {

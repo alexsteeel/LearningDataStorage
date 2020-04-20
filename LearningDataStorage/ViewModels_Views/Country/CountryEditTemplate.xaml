@@ -11,6 +11,9 @@
             <TextBox Margin="0 8 0 0"
                      HorizontalAlignment="Stretch"
                      Text="{Binding Name}" />
+            <TextBox Margin="0 8 0 0"
+                     HorizontalAlignment="Stretch"
+                     Text="{Binding Alpha3Code}" />
             
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
