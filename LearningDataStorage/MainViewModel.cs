@@ -13,7 +13,7 @@ namespace LearningDataStorage
     {
         private readonly IServicesContainer _servicesContainer;
 
-        public MainViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer)
+        public MainViewModel(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
             : base (mainContainer)
         {
             _servicesContainer = servicesContainer;

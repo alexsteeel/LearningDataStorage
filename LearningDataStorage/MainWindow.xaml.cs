@@ -15,7 +15,7 @@ namespace LearningDataStorage
     {
         public static Snackbar Snackbar;
 
-        public MainWindow(IMainContainer mainContainer, IServicesContainer servicesContainer)
+        public MainWindow(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
         {
             InitializeComponent();
 

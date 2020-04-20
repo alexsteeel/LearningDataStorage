@@ -10,7 +10,7 @@ namespace LearningDataStorage
     {
         private readonly IService<Book> _bookService;
 
-        public BooksListViewModel(IMainContainer mainContainer, IServicesContainer servicesContainer)
+        public BooksListViewModel(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
             : base (mainContainer)
         {
             _bookService = servicesContainer.BookService;

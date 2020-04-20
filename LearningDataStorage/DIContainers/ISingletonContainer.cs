@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace LearningDataStorage
 {
-    public interface IMainContainer
+    public interface ISingletonContainer
     {
         IDialog Dialog { get; }
         ResourceDictionary Localization { get; }

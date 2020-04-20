@@ -12,7 +12,7 @@ namespace LearningDataStorage
 {
     public class BookEditViewModel : BaseViewModel, IDialogPage
     {
-        public BookEditViewModel(IMainContainer mainContainer, Book book)
+        public BookEditViewModel(ISingletonContainer mainContainer, Book book)
             : base (mainContainer)
         {
             PrepareBook(book);

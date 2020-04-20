@@ -9,9 +9,9 @@ namespace LearningDataStorage
         protected readonly ILog _log;
         protected readonly ResourceDictionary _localization;
         protected readonly IDialog _dialog;
-        protected readonly IMainContainer _mainContainer;
+        protected readonly ISingletonContainer _mainContainer;
 
-        protected BaseViewModel(IMainContainer mainContainer)
+        protected BaseViewModel(ISingletonContainer mainContainer)
         {
             _log = mainContainer.Log;
             _localization = mainContainer.Localization;
