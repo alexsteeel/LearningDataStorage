@@ -1,4 +1,5 @@
 ﻿using LearningDataStorage.Core.Models;
+using LearningDataStorage.Core.Services;
 using LearningDataStorage.DAL;
 using log4net;
 using Microsoft.Win32;
@@ -12,11 +13,29 @@ namespace LearningDataStorage
 {
     public class BookEditViewModel : BaseViewModel, IDialogPage
     {
-        public BookEditViewModel(ISingletonContainer mainContainer, Book book)
+
+        private readonly IService<Book> _bookService;
+        private readonly IService<PublishingHouse> _publishingHouseService;
+
+        private readonly IService<City> _cityService;
+        private readonly IService<Country> _countryService;
+        private readonly IService<Language> _languageService;
+
+        public BookEditViewModel(ISingletonContainer mainContainer,
+                                 IBookServicesContainer bookContainer,
+                                 ICommonServicesContainer commonContainer,
+                                 Book book)
             : base (mainContainer)
         {
+            _bookService = bookContainer.BookService;
+            _publishingHouseService = bookContainer.PublishingHouseService;
+
+            _cityService = commonContainer.CityService;
+            _countryService = commonContainer.CountryService;
+            _languageService = commonContainer.LanguageService;
+
             PrepareBook(book);
-            GetCollections();
+            SetCollections();
 
             SaveCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             LoadBookCoverCommand = new DelegateCommand(LoadBookCover);
@@ -29,11 +48,11 @@ namespace LearningDataStorage
 
         public bool IsEditMode { get; set; }
 
-        public ICollection<Language> Languages { get; set; }
+        public IEnumerable<Language> Languages { get; set; }
 
-        public ICollection<PublishingHouse> PublishingHouses { get; set; }
+        public IEnumerable<PublishingHouse> PublishingHouses { get; set; }
 
-        public ICollection<City> Cities { get; set; }
+        public IEnumerable<City> Cities { get; set; }
 
         #endregion Properties
 
@@ -49,14 +68,13 @@ namespace LearningDataStorage
 
         #region Methods
 
-        private void GetCollections()
+        private async void SetCollections()
         {
             try
             {
-                using ApplicationContext ctx = new ApplicationContext();
-                Languages = ctx.Languages.ToList();
-                PublishingHouses = ctx.PublishingHouses.ToList();
-                Cities = ctx.Cities.ToList();
+                Languages = await _languageService.GetAll();
+                PublishingHouses = await _publishingHouseService.GetAll();
+                Cities = await _cityService.GetAll();
             }
             catch (Exception ex)
             {
@@ -86,22 +104,19 @@ namespace LearningDataStorage
             return true;
         }
 
-        private void SaveChanges()
+        private async void SaveChanges()
         {
             try
             {
-                using ApplicationContext ctx = new ApplicationContext();
-                var book = ctx.Books.FirstOrDefault(x => x.Id == Book.Id);
-                if (book == null)
+                if (Book.Id != 0)
                 {
-                    ctx.Books.Add(Book);
+                    var book = await _bookService.GetById(Book.Id);
+                    await _bookService.Update(book, Book);
                 }
                 else
                 {
-                    ctx.Entry(book).CurrentValues.SetValues(Book);
+                    await _bookService.Create(Book);
                 }
-
-                ctx.SaveChanges();
             }
             catch (Exception ex)
             {

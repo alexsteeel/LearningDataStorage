@@ -1,21 +1,21 @@
-﻿using LearningDataStorage.Core.Models;
-using LearningDataStorage.Core.Services;
-using log4net;
-using Prism.Commands;
+﻿using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 
 namespace LearningDataStorage
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly IServicesContainer _servicesContainer;
+        private readonly IBookServicesContainer _bookContainer;
+        private readonly ICommonServicesContainer _servicesContainer;
 
-        public MainViewModel(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
+        public MainViewModel(ISingletonContainer mainContainer,
+                             IBookServicesContainer bookContainer,
+                             ICommonServicesContainer servicesContainer)
             : base (mainContainer)
         {
+            _bookContainer = bookContainer;
             _servicesContainer = servicesContainer;
 
             CloseCommand = new DelegateCommand(Close);
@@ -57,7 +57,7 @@ namespace LearningDataStorage
         {
             return new ObservableCollection<MenuItem>
             {
-                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_mainContainer, _servicesContainer)),
+                new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_mainContainer, _bookContainer, _servicesContainer)),
                 new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_mainContainer, _servicesContainer)),
                 new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_mainContainer, _servicesContainer))
             };

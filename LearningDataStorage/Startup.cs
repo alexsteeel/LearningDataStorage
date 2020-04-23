@@ -117,11 +117,15 @@ namespace LearningDataStorage
             services.AddSingleton<IDialog>(new Dialog());
             
             services.AddSingleton<ISingletonContainer, SingletonContainer>();
-            services.AddTransient<IServicesContainer, ServicesContainer>();
+            services.AddTransient<IBookServicesContainer, BookServicesContainer>();
+            services.AddTransient<ICommonServicesContainer, CommonServicesContainer>();
 
             services.AddTransient<IService<Book>, BookService>();
+            services.AddTransient<IService<PublishingHouse>, PublishingHouseService>();
+
             services.AddTransient<IService<City>, CityService>();
             services.AddTransient<IService<Country>, CountryService>();
+            services.AddTransient<IService<Language>, LanguageService>();
 
             services.AddSingleton<MainWindow>();
         }

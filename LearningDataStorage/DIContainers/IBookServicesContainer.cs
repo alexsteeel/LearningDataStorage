@@ -3,10 +3,9 @@ using LearningDataStorage.Core.Services;
 
 namespace LearningDataStorage
 {
-    public interface IServicesContainer
+    public interface IBookServicesContainer
     {
         IService<Book> BookService { get; }
-        IService<City> CityService { get; }
-        IService<Country> CountryService { get; }
+        IService<PublishingHouse> PublishingHouseService { get; }
     }
 }

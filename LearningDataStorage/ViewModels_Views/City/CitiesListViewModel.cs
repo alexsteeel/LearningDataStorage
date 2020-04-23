@@ -18,7 +18,7 @@ namespace LearningDataStorage
         private readonly IService<City> _cityService;
         private readonly IService<Country> _countryService;
 
-        public CitiesListViewModel(ISingletonContainer mainContainer, IServicesContainer servicesContainer) 
+        public CitiesListViewModel(ISingletonContainer mainContainer, ICommonServicesContainer servicesContainer) 
             : base(mainContainer)
         {
             _cityService = servicesContainer.CityService;

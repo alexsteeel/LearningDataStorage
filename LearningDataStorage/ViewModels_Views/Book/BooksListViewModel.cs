@@ -8,12 +8,20 @@ namespace LearningDataStorage
 {
     public class BooksListViewModel : BaseViewModel, IInitialized
     {
+        private readonly IBookServicesContainer _bookContainer;
+        private readonly ICommonServicesContainer _commonContainer;
+
         private readonly IService<Book> _bookService;
 
-        public BooksListViewModel(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
+        public BooksListViewModel(ISingletonContainer mainContainer,
+                                  IBookServicesContainer bookContainer,
+                                  ICommonServicesContainer commonContainer)
             : base (mainContainer)
         {
-            _bookService = servicesContainer.BookService;
+            _bookContainer = bookContainer;
+            _commonContainer = commonContainer;
+
+            _bookService = bookContainer.BookService;            
 
             Books = new ObservableCollection<Book>();
             ShowBookCommand = new DelegateCommand(ShowBook);
@@ -74,15 +82,17 @@ namespace LearningDataStorage
 
         private void ShowBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(_mainContainer, SelectedBook);
-            SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
-            SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
-            IsBookOpen = true;
+            CreateBookEditViewModel(SelectedBook);
         }
 
         private void AddBook()
         {
-            SelectedBookViewModel = new BookEditViewModel(_mainContainer, null);
+            CreateBookEditViewModel(null);
+        }
+
+        private void CreateBookEditViewModel(Book book)
+        {
+            SelectedBookViewModel = new BookEditViewModel(_mainContainer, _bookContainer, _commonContainer, book);
             SelectedBookViewModel.OnAccepted += SelectedBookViewModel_IsAccepted;
             SelectedBookViewModel.OnCanceled += SelectedBookViewModel_IsCanceled;
             IsBookOpen = true;

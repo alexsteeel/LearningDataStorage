@@ -15,11 +15,13 @@ namespace LearningDataStorage
     {
         public static Snackbar Snackbar;
 
-        public MainWindow(ISingletonContainer mainContainer, IServicesContainer servicesContainer)
+        public MainWindow(ISingletonContainer mainContainer,
+                          IBookServicesContainer bookContainer,
+                          ICommonServicesContainer servicesContainer)
         {
             InitializeComponent();
 
-            var vm = new MainViewModel(mainContainer, servicesContainer);
+            var vm = new MainViewModel(mainContainer, bookContainer, servicesContainer);
             DataContext = vm;
 
             Snackbar = this.MainSnackbar;
