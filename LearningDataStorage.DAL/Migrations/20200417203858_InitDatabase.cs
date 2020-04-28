@@ -7,6 +7,9 @@ namespace LearningDataStorage.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var dbName = "LDS";
+            var fileTablesPath = @"C:\FileStorage";
+
             migrationBuilder.EnsureSchema(
                 name: "data");
 
@@ -497,18 +500,18 @@ namespace LearningDataStorage.DAL.Migrations
                 column: "CountryId");
 
             migrationBuilder.Sql(
-            @"
-	            ALTER DATABASE LDS  
+            @$"
+	            ALTER DATABASE {dbName}  
 	            SET FILESTREAM ( NON_TRANSACTED_ACCESS = FULL, DIRECTORY_NAME = N'FilesStore' );  
 	            GO  
 
-	            ALTER DATABASE LDS
+	            ALTER DATABASE {dbName}
 	            ADD FILEGROUP fsGroup CONTAINS FILESTREAM;
 	            GO
 
-	            ALTER DATABASE LDS
+	            ALTER DATABASE {dbName}
 	            ADD FILE
-	              ( NAME = 'fsLdsDB', FILENAME = 'D:\FileStorage'
+	              ( NAME = 'fsLdsDB', FILENAME = '{fileTablesPath}'
 	               )
 	            TO FILEGROUP fsGroup;
 	            GO
