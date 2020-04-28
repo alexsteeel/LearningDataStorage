@@ -1,10 +1,10 @@
-ПО для хранения обучающих материалов (книги, курсы, статьи, ссылки, цитаты, инструкции и так далее).
+ПО для хранения обучающих материалов (книги, курсы, статьи, ссылки, цитаты, инструкции и так далее).  
 Software for storing training materials (books, courses, articles, links, quotes, instructions, and so on).
 
-При добавлении локализаций был использован проект [WPF-Localization](https://github.com/Epsil0neR/WPF-Localization).
+При добавлении локализаций был использован проект [WPF-Localization](https://github.com/Epsil0neR/WPF-Localization).  
 При добавлении chrome-стиля и настроек был использован проект [Bachup](https://github.com/ChrisStayte/Bachup).
 
-Code for localizations was taken from [WPF-Localization](https://github.com/Epsil0neR/WPF-Localization)
+Code for localizations was taken from [WPF-Localization](https://github.com/Epsil0neR/WPF-Localization)  
 Code for chrome style and setting was taken from [Bachup](https://github.com/ChrisStayte/Bachup)
 
 Настройка проекта:
