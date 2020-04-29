@@ -1,15 +1,12 @@
-﻿using LearningDataStorage.Core.Models;
+﻿using AutoMapper;
+using LearningDataStorage.Core.Models;
 using LearningDataStorage.Core.Services;
-using LearningDataStorage.DAL;
-using log4net;
 using MaterialDesignThemes.Wpf;
-using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace LearningDataStorage
 {
@@ -17,12 +14,15 @@ namespace LearningDataStorage
     {
         private readonly IService<City> _cityService;
         private readonly IService<Country> _countryService;
+        private readonly IMapper _mapper;
 
         public CitiesListViewModel(ISingletonContainer mainContainer, ICommonServicesContainer servicesContainer) 
             : base(mainContainer)
         {
             _cityService = servicesContainer.CityService;
             _countryService = servicesContainer.CountryService;
+
+            _mapper = mainContainer.Mapper;
 
             Cities = new ObservableCollection<City>();
             Countries = new ObservableCollection<Country>();
@@ -34,7 +34,7 @@ namespace LearningDataStorage
 
         #region Properties
 
-        public City SelectedCity { get; set; }
+        public CityViewModel SelectedCity { get; set; }
 
         public ObservableCollection<City> Cities { get; set; }
 
@@ -83,7 +83,7 @@ namespace LearningDataStorage
 
         private async void AddCity()
         {
-            SelectedCity = new City
+            SelectedCity = new CityViewModel
             {
                 CountryId = Countries.FirstOrDefault()?.Id ?? 0
             };
@@ -102,13 +102,15 @@ namespace LearningDataStorage
             {
                 if (SelectedCity.Id != 0)
                 {
-                    var city = await _cityService.GetById(SelectedCity.Id);
-                    await _cityService.Update(city, SelectedCity);
+                    var oldCity = await _cityService.GetById(SelectedCity.Id);
+                    var city = _mapper.Map<CityViewModel, City>(SelectedCity);
+                    await _cityService.Update(oldCity, city);
                 }
                 else
                 {
-                    await _cityService.Create(SelectedCity);
-                    Cities.Add(SelectedCity);
+                    var city = _mapper.Map<CityViewModel, City>(SelectedCity);
+                    await _cityService.Create(city);
+                    Cities.Add(city);
                 }
             }
             catch (Exception ex)
@@ -124,5 +126,6 @@ namespace LearningDataStorage
         }
 
         #endregion Methods
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using LearningDataStorage.Core.Models;
+﻿using AutoMapper;
+using LearningDataStorage.Core.Models;
 using LearningDataStorage.Core.Repositories;
 using LearningDataStorage.Core.Services;
 using LearningDataStorage.DAL;
@@ -70,7 +71,7 @@ namespace LearningDataStorage
             services.AddSingleton(localization);
 
             services.AddSingleton<IDialog>(new Dialog());
-
+            
             services.AddSingleton<ISingletonContainer, SingletonContainer>();
             services.AddTransient<IBookServicesContainer, BookServicesContainer>();
             services.AddTransient<ICommonServicesContainer, CommonServicesContainer>();
@@ -81,6 +82,8 @@ namespace LearningDataStorage
             services.AddTransient<IService<City>, CityService>();
             services.AddTransient<IService<Country>, CountryService>();
             services.AddTransient<IService<Language>, LanguageService>();
+
+            services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddTransient(typeof(MainWindow));
         }

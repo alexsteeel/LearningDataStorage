@@ -4,14 +4,15 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:dal="clr-namespace:LearningDataStorage.DAL;assembly=LearningDataStorage.DAL">
 
-    <DataTemplate x:Key="CityEditTemplate"
-                  DataType="dal:City">
+    <DataTemplate x:Key="CityEditTemplate">
         <StackPanel Margin="16">
             <TextBlock Text="{DynamicResource m_Cm_AddCity}" />
-            <TextBox Margin="0 8 0 0"
+            <TextBox Margin="0 8 0 12"
                      HorizontalAlignment="Stretch"
-                     Text="{Binding Name}" />
-            <ComboBox Margin="0 8 0 0"
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     materialDesign:ValidationAssist.FontSize="11">
+            </TextBox>
+            <ComboBox Margin="0 14 0 0"
                       HorizontalAlignment="Stretch"
                       ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                 AncestorType={x:Type UserControl}},
