@@ -4,6 +4,7 @@ using LearningDataStorage.Core.Services;
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace LearningDataStorage
 
             _mapper = mainContainer.Mapper;
 
-            Cities = new ObservableCollection<City>();
+            Cities = new ObservableCollection<CityViewModel>();
             Countries = new ObservableCollection<Country>();
 
             SaveCityCommand = new DelegateCommand(SaveChanges);
@@ -36,7 +37,7 @@ namespace LearningDataStorage
 
         public CityViewModel SelectedCity { get; set; }
 
-        public ObservableCollection<City> Cities { get; set; }
+        public ObservableCollection<CityViewModel> Cities { get; set; }
 
         public ObservableCollection<Country> Countries { get; set; }
 
@@ -66,7 +67,8 @@ namespace LearningDataStorage
                 var cities = await _cityService.GetAll();
                 var countries = await _countryService.GetAll();
 
-                Cities = new ObservableCollection<City>(cities);
+                var cityViewModels = _mapper.Map<IEnumerable<City>, IEnumerable<CityViewModel>>(cities);
+                Cities = new ObservableCollection<CityViewModel>(cityViewModels);
                 Countries = new ObservableCollection<Country>(countries);
             }
             catch (Exception ex)
@@ -110,7 +112,7 @@ namespace LearningDataStorage
                 {
                     var city = _mapper.Map<CityViewModel, City>(SelectedCity);
                     await _cityService.Create(city);
-                    Cities.Add(city);
+                    Cities.Add(SelectedCity);
                 }
             }
             catch (Exception ex)

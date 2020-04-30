@@ -8,6 +8,7 @@ namespace LearningDataStorage
         public MappingProfile()
         {
             CreateMap<CityViewModel, City>();
+            CreateMap<City, CityViewModel>();
         }
     }
 }
