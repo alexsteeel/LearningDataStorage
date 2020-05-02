@@ -44,6 +44,7 @@
     <v:String x:Key="m_Er_LoadDataError">Error loading data from database.</v:String>
     <v:String x:Key="m_Er_InitCitiesError">Error loading cities.</v:String>
     <v:String x:Key="m_Er_SaveCitiesError">Error saving cities.</v:String>
+    <v:String x:Key="m_Er_DeleteCitiesError">Error deleting city.</v:String>
     <v:String x:Key="m_Er_InitCountriesError">Error loading countries.</v:String>
     <v:String x:Key="m_Er_SaveCountriesError">Error saving countries.</v:String>
 

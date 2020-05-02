@@ -6,7 +6,6 @@ using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace LearningDataStorage
@@ -17,7 +16,7 @@ namespace LearningDataStorage
         private readonly IService<Country> _countryService;
         private readonly IMapper _mapper;
 
-        public CitiesListViewModel(ISingletonContainer mainContainer, ICommonServicesContainer servicesContainer) 
+        public CitiesListViewModel(ISingletonContainer mainContainer, ICommonServicesContainer servicesContainer)
             : base(mainContainer)
         {
             _cityService = servicesContainer.CityService;
@@ -28,9 +27,10 @@ namespace LearningDataStorage
             Cities = new ObservableCollection<CityViewModel>();
             Countries = new ObservableCollection<Country>();
 
-            SaveCityCommand = new DelegateCommand(SaveChanges);
+            SaveCityCommand = new DelegateCommand(SaveCity);
             AddCityCommand = new DelegateCommand(AddCity);
             ChangeCityCommand = new DelegateCommand(ChangeCity);
+            DeleteCityCommand = new DelegateCommand(DeleteCity);
         }
 
         #region Properties
@@ -54,6 +54,8 @@ namespace LearningDataStorage
         public DelegateCommand AddCityCommand { get; set; }
 
         public DelegateCommand ChangeCityCommand { get; set; }
+
+        public DelegateCommand DeleteCityCommand { get; set; }
 
         #endregion Commands
 
@@ -98,7 +100,7 @@ namespace LearningDataStorage
             await DialogHost.Show(SelectedCity, "CityDialog");
         }
 
-        private async void SaveChanges()
+        private async void SaveCity()
         {
             try
             {
@@ -121,9 +123,25 @@ namespace LearningDataStorage
                 _log.Error(errorText, ex);
                 _dialog.Error($"{errorText} {ex.Message}");
             }
-            finally 
+            finally
             {
                 IsDialogOpen = false;
+            }
+        }
+
+        private async void DeleteCity()
+        {
+            try
+            {
+                var city = await _cityService.GetById(SelectedCity.Id);
+                await _cityService.Delete(city);
+                Cities.Remove(SelectedCity);
+            }
+            catch (Exception ex)
+            {
+                var errorText = $"{_localization["m_Er_DeleteCitiesError"]}{_localization["m_Er_DetailedError"]}";
+                _log.Error(errorText, ex);
+                _dialog.Error($"{errorText} {ex.Message}");
             }
         }
 
