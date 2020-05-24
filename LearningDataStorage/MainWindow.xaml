@@ -150,7 +150,6 @@
                                                              Kind="WindowMaximize" />
                                 </Button>
 
-
                                 <Button Name="Close"
                                         Margin="0 0 10 0"
                                         VerticalAlignment="Center"
