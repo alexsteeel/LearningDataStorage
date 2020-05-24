@@ -47,16 +47,16 @@
                          ItemTemplate="{StaticResource CityPreviewTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding ChangeCityCommand}" />
+                            <i:InvokeCommandAction Command="{Binding UpdateCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ListBox.InputBindings>
-                        <KeyBinding Key="Delete" Command="{Binding Path=DeleteCityCommand}"></KeyBinding>
+                        <KeyBinding Key="Delete" Command="{Binding Path=DeleteCommand}"></KeyBinding>
                     </ListBox.InputBindings>
                 </ListBox>
                     
                     <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            Command="{Binding AddCityCommand}"
+                            Command="{Binding CreateCommand}"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Right"
                             Grid.Row="0"

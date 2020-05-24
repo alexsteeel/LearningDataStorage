@@ -39,14 +39,11 @@
     <!--Errors-->
     <v:String x:Key="m_Er_DetailedError">\r\nDetailed error:\r\n</v:String>
     <v:String x:Key="m_Er_InitMainMenuError">Error loading main menu.</v:String>
-    <v:String x:Key="m_Er_InitBooksError">Error loading books.</v:String>
-    <v:String x:Key="m_Er_SaveBooksError">Error saving books.</v:String>
-    <v:String x:Key="m_Er_LoadDataError">Error loading data from database.</v:String>
-    <v:String x:Key="m_Er_InitCitiesError">Error loading cities.</v:String>
-    <v:String x:Key="m_Er_SaveCitiesError">Error saving cities.</v:String>
-    <v:String x:Key="m_Er_DeleteCitiesError">Error deleting city.</v:String>
-    <v:String x:Key="m_Er_InitCountriesError">Error loading countries.</v:String>
-    <v:String x:Key="m_Er_SaveCountriesError">Error saving countries.</v:String>
+
+    <v:String x:Key="m_Er_CreateError">Error creating new object.</v:String>
+    <v:String x:Key="m_Er_InitError">Error loading data.</v:String>
+    <v:String x:Key="m_Er_SaveError">Error saving data.</v:String>
+    <v:String x:Key="m_Er_DeleteError">Error deleting object.</v:String>
 
 
 </ResourceDictionary>
