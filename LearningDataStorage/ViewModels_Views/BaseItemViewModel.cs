@@ -5,8 +5,7 @@ using System.Linq;
 
 namespace LearningDataStorage
 {
-    public class BaseEntityViewModel : INotifyPropertyChanged, IDataErrorInfo
-
+    public class BaseEntityViewModel : IBaseEntityViewModel
     {
         private readonly IValidator _validator;
 
@@ -14,6 +13,8 @@ namespace LearningDataStorage
         {
             _validator = validator;
         }
+
+        public int Id { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

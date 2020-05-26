@@ -3,12 +3,13 @@ using log4net;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearningDataStorage
 {
-    public abstract class BaseCrudViewModel : BindableBase, IInitialized
+    public abstract class BaseCrudViewModel<TViewModel> : BindableBase, IInitialized
     {
         protected readonly ILog _log;
         protected readonly ResourceDictionary _localization;
@@ -24,6 +25,8 @@ namespace LearningDataStorage
             _mainContainer = mainContainer;
             _mapper = mainContainer.Mapper;
 
+            Items = new ObservableCollection<TViewModel>();
+
             CreateCommand = new DelegateCommand(Create);
             UpdateCommand = new DelegateCommand(Update);
             DeleteCommand = new DelegateCommand(Delete);
@@ -31,6 +34,10 @@ namespace LearningDataStorage
         }
 
         #region Properties
+
+        public TViewModel SelectedItem { get; set; }
+
+        public ObservableCollection<TViewModel> Items { get; set; }
 
         public bool IsLoading { get; set; }
 

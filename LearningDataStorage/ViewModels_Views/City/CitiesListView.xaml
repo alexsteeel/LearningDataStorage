@@ -42,8 +42,8 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                <ListBox ItemsSource="{Binding Cities}"
-                         SelectedItem="{Binding SelectedCity}"
+                <ListBox ItemsSource="{Binding Items}"
+                         SelectedItem="{Binding SelectedItem}"
                          ItemTemplate="{StaticResource CityPreviewTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
