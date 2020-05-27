@@ -40,6 +40,7 @@ namespace LearningDataStorage.Services
         public async Task Update(City cityToBeUpdated, City city)
         {
             cityToBeUpdated.Name = city.Name;
+            cityToBeUpdated.Country = city.Country;
             await _unitOfWork.CommitAsync();
         }
     }

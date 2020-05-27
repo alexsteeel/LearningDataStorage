@@ -4,12 +4,14 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearningDataStorage
 {
     public abstract class BaseCrudViewModel<TViewModel> : BindableBase, IInitialized
+        where TViewModel : IBaseEntityViewModel
     {
         protected readonly ILog _log;
         protected readonly ResourceDictionary _localization;
@@ -26,22 +28,32 @@ namespace LearningDataStorage
             _mapper = mainContainer.Mapper;
 
             Items = new ObservableCollection<TViewModel>();
+            SelectedItem = (TViewModel)Activator.CreateInstance(typeof(TViewModel));
 
             CreateCommand = new DelegateCommand(Create);
             UpdateCommand = new DelegateCommand(Update);
             DeleteCommand = new DelegateCommand(Delete);
-            SaveCommand = new DelegateCommand(Save);
+            SaveCommand = new DelegateCommand(Save, () => HasErrors).ObservesProperty(() => HasErrors);
+        }
+
+        private void EditItem_OnErrorChanged(object sender, EventArgs e)
+        {
+            HasErrors = string.IsNullOrEmpty(EditItem?.Error);
         }
 
         #region Properties
 
         public TViewModel SelectedItem { get; set; }
 
+        public TViewModel EditItem { get; set; }
+
         public ObservableCollection<TViewModel> Items { get; set; }
 
         public bool IsLoading { get; set; }
 
         public bool IsDialogOpen { get; set; }
+
+        public bool HasErrors { get; set; }
 
         #endregion Properties
 
@@ -76,7 +88,19 @@ namespace LearningDataStorage
             {
                 IsLoading = false;
             }
-        }        
+        }
+
+        public void Create()
+        {
+            OpenCreateWindow();
+        }
+
+        public void Update()
+        {
+            EditItem = (TViewModel)SelectedItem.Clone();
+            EditItem.OnErrorChanged += EditItem_OnErrorChanged;
+            OpenUpdateWindow();
+        }
 
         private async void Save()
         {
@@ -114,9 +138,9 @@ namespace LearningDataStorage
 
         public abstract Task SaveAsync();
 
-        public abstract void Create();
+        public abstract void OpenCreateWindow();
 
-        public abstract void Update();
+        public abstract void OpenUpdateWindow();
 
         public abstract Task DeleteAsync();
 

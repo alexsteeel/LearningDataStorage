@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LearningDataStorage
 {
-    public class BaseEntityViewModel : IBaseEntityViewModel
+    public abstract class BaseEntityViewModel : IBaseEntityViewModel
     {
         private readonly IValidator _validator;
 
@@ -14,10 +14,6 @@ namespace LearningDataStorage
             _validator = validator;
         }
 
-        public int Id { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public string this[string columnName]
         {
             get
@@ -25,13 +21,15 @@ namespace LearningDataStorage
                 var error = _validator.Validate(this).Errors
                     .FirstOrDefault(x => x.PropertyName == columnName);
 
+                OnErrorChanged?.Invoke(this, EventArgs.Empty);
+
                 if (error != null)
                 {
-                    return _validator != null ? error.ErrorMessage : "";
+                    return _validator != null ? error.ErrorMessage : string.Empty;
                 }
                 else
                 {
-                    return "";
+                    return string.Empty;
                 }
             }
         }
@@ -52,5 +50,13 @@ namespace LearningDataStorage
                 return string.Empty;
             }
         }
+
+        public event EventHandler OnErrorChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public abstract object Clone();
+
+        public abstract void CopyFrom(IBaseEntityViewModel viewModel);
     }
 }

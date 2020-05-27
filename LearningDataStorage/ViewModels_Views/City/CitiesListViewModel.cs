@@ -40,41 +40,42 @@ namespace LearningDataStorage
             Countries = new ObservableCollection<Country>(countries);
         }
 
-        public override async void Create()
+        public override async void OpenCreateWindow()
         {
-            SelectedItem = new CityViewModel
+            EditItem = new CityViewModel
             {
-                CountryId = Countries.FirstOrDefault()?.Id ?? 0
+                Country = Countries.FirstOrDefault()
             };
 
-            await DialogHost.Show(SelectedItem, "CityDialog");
+            await DialogHost.Show(EditItem, "CityDialog");
         }
 
-        public override async void Update()
+        public override async void OpenUpdateWindow()
         {
-            await DialogHost.Show(SelectedItem, "CityDialog");
+            await DialogHost.Show(EditItem, "CityDialog");
         }
 
         public override async Task SaveAsync()
         {
-            var city = (CityViewModel)SelectedItem;
+            var city = EditItem;
             if (city.Id != 0)
             {
                 var oldCity = await _cityService.GetById(city.Id);
                 var newCity = _mapper.Map<CityViewModel, City>(city);
                 await _cityService.Update(oldCity, newCity);
+                SelectedItem.CopyFrom(EditItem);
             }
             else
             {
                 var newCity = _mapper.Map<CityViewModel, City>(city);
                 await _cityService.Create(newCity);
                 Items.Add(city);
-            }
+            }            
         }
 
         public override async Task DeleteAsync()
         {
-            var cityId = ((CityViewModel)SelectedItem).Id;
+            var cityId = SelectedItem.Id;
             var city = await _cityService.GetById(cityId);
             await _cityService.Delete(city);
             Items.Remove(SelectedItem);
