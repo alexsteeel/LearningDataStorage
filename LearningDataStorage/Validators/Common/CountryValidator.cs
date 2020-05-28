@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
 
-namespace LearningDataStorage.Core.Models
+namespace LearningDataStorage
 {
-    public class CountryValidator
+    public class CountryValidator : AbstractValidator<CountryViewModel>
     {
-        
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Alpha3Code { get; set; }
-
-        public ICollection<City> Cities { get; set; }
-
+        public CountryValidator()
+        {
+            RuleFor(country => country.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(100);
+            
+            RuleFor(country => country.Alpha3Code)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(3);
+        }
     }
 }

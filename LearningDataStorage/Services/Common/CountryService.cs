@@ -40,6 +40,7 @@ namespace LearningDataStorage.Services
         public async Task Update(Country countryToBeUpdated, Country country)
         {
             countryToBeUpdated.Name = country.Name;
+            countryToBeUpdated.Alpha3Code = country.Alpha3Code;
             await _unitOfWork.CommitAsync();
         }
     }

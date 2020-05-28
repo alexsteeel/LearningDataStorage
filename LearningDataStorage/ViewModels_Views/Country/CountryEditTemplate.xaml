@@ -8,13 +8,17 @@
                   DataType="dal:Country">
         <StackPanel Margin="16">
             <TextBlock Text="{DynamicResource m_Cm_AddCountry}" />
-            <TextBox Margin="0 8 0 0"
+            <TextBox Margin="0 8 0 12"
                      HorizontalAlignment="Stretch"
-                     Text="{Binding Name}" />
-            <TextBox Margin="0 8 0 0"
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     materialDesign:ValidationAssist.FontSize="11">
+            </TextBox>
+            <TextBox Margin="0 8 0 12"
                      HorizontalAlignment="Stretch"
-                     Text="{Binding Alpha3Code}" />
-            
+                     Text="{Binding Alpha3Code, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     materialDesign:ValidationAssist.FontSize="11">
+            </TextBox>
+
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -23,7 +27,7 @@
                         Content="{DynamicResource m_Cm_Save}"
                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType={x:Type UserControl}},
-                                                         Path=DataContext.SaveCountryCommand}" />
+                                                         Path=DataContext.SaveCommand}" />
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         IsCancel="True"
                         Margin="0 8 8 0"

@@ -9,6 +9,9 @@ namespace LearningDataStorage
         {
             CreateMap<CityViewModel, City>();
             CreateMap<City, CityViewModel>();
+
+            CreateMap<CountryViewModel, Country>();
+            CreateMap<Country, CountryViewModel>();
         }
     }
 }

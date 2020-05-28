@@ -48,18 +48,18 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                <ListBox ItemsSource="{Binding Countries}"
-                         SelectedItem="{Binding SelectedCountry}"
+                <ListBox ItemsSource="{Binding Items}"
+                         SelectedItem="{Binding SelectedItem}"
                          ItemTemplate="{StaticResource CountryPreviewTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding ChangeCountryCommand}" />
+                            <i:InvokeCommandAction Command="{Binding UpdateCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ListBox>
                     
                     <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            Command="{Binding AddCountryCommand}"
+                            Command="{Binding CreateCommand}"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Right"
                             Grid.Row="0"
