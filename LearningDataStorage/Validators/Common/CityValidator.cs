@@ -1,14 +1,18 @@
 ﻿using FluentValidation;
 
-namespace LearningDataStorage.Core.Models
+namespace LearningDataStorage
 {
     public class CityValidator : AbstractValidator<CityViewModel>
     {
         public CityValidator()
         {
-            RuleFor(city => city.Id).NotNull();
-            RuleFor(city => city.Name).NotNull().NotEmpty();
-            RuleFor(city => city.Country).NotNull();
+            RuleFor(city => city.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(100);
+
+            RuleFor(city => city.Country)
+                .NotNull();
         }
     }
 }
