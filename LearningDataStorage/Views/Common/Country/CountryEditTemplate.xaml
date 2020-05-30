@@ -4,8 +4,7 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:dal="clr-namespace:LearningDataStorage.DAL;assembly=LearningDataStorage.DAL">
 
-    <DataTemplate x:Key="CountryEditTemplate"
-                  DataType="dal:Country">
+    <DataTemplate x:Key="CountryEditTemplate">
         <StackPanel Margin="16">
             <TextBlock Text="{DynamicResource m_Cm_AddCountry}" />
             <TextBox Margin="0 8 0 12"
@@ -21,18 +20,9 @@
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
-                <Button Style="{StaticResource MaterialDesignFlatButton}"
-                        IsDefault="True"
-                        Margin="0 8 8 0"
-                        Content="{DynamicResource m_Cm_Save}"
-                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                         AncestorType={x:Type UserControl}},
-                                                         Path=DataContext.SaveCommand}" />
-                <Button Style="{StaticResource MaterialDesignFlatButton}"
-                        IsCancel="True"
-                        Margin="0 8 8 0"
-                        Command="materialDesign:DialogHost.CloseDialogCommand"
-                        Content="{DynamicResource m_Cm_Cancel}" />
+
+                <Button Style="{StaticResource SaveButton}" />
+                <Button Style="{StaticResource CancelButton}" />
             </StackPanel>
         </StackPanel>
     </DataTemplate>
