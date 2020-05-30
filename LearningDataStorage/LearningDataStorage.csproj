@@ -43,10 +43,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="ViewModels_Views\Country\CountriesListView.xaml.cs">
+    <Compile Update="Views\Common\Country\CountriesListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ViewModels_Views\City\CitiesListView.xaml.cs">
+    <Compile Update="Views\Common\City\CitiesListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -80,22 +80,22 @@
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\Country\CountriesListView.xaml">
+    <Page Update="Views\Common\Country\CountriesListView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\Country\CountryEditTemplate.xaml">
+    <Page Update="Views\Common\Country\CountryEditTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\Country\CountryPreviewTemplate.xaml">
+    <Page Update="Views\Common\Country\CountryPreviewTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\City\CityEditTemplate.xaml">
+    <Page Update="Views\Common\City\CityEditTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\City\CityPreviewTemplate.xaml">
+    <Page Update="Views\Common\City\CityPreviewTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModels_Views\City\CitiesListView.xaml">
+    <Page Update="Views\Common\City\CitiesListView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
