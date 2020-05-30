@@ -4,6 +4,20 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:dal="clr-namespace:LearningDataStorage.DAL;assembly=LearningDataStorage.DAL">
 
+    <!--Create button-->
+    <Style x:Key="CreateButton"
+           TargetType="Button"
+           BasedOn="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+
+        <Setter Property="IsDefault" Value="True"/>
+        <Setter Property="Margin" Value="0 0 20 20"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Command" Value="{Binding CreateCommand}"/>
+        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Plus, Size=20}"/>
+    </Style>
+    
+    <!--Save button-->
     <Style x:Key="SaveButton"
            TargetType="Button"
            BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -16,6 +30,7 @@
                                                          Path=DataContext.SaveCommand}"/>
     </Style>
 
+    <!--Cancel button-->
     <Style x:Key="CancelButton"
            TargetType="Button"
            BasedOn="{StaticResource MaterialDesignFlatButton}">

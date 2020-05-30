@@ -54,17 +54,8 @@
                         <KeyBinding Key="Delete" Command="{Binding Path=DeleteCommand}"></KeyBinding>
                     </ListBox.InputBindings>
                 </ListBox>
-                    
-                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            Command="{Binding CreateCommand}"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Right"
-                            Grid.Row="0"
-                            Margin="0 0 20 20">
-                        <materialDesign:PackIcon Kind="Plus"
-                                                 Height="25"
-                                                 Width="25" />
-                    </Button>
+
+                <Button Style="{StaticResource CreateButton}"/>
                 </Grid>
         </materialDesign:DialogHost>
 
