@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <Grid>
+    <Grid Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
         <materialDesign:Card UniformCornerRadius="40"
                              Width="60"
                              Height="60">
