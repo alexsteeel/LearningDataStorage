@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
-using LearningDataStorage.Core.Models;
 
 namespace LearningDataStorage
 {
-    public class LanguageValidator : AbstractValidator<Language>
+    public class LanguageValidator : AbstractValidator<LanguageViewModel>
     {
         public LanguageValidator()
         {

@@ -43,6 +43,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Update="Views\Common\Language\LanguageListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Common\Country\CountriesListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +81,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Localizations\lang.ru-RU.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Common\Language\LanguageListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Common\Language\LanguageEditTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Common\Language\LanguagePreviewTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Common\Country\CountriesListView.xaml">

@@ -59,7 +59,8 @@ namespace LearningDataStorage
             {
                 new MenuItem(_localization["m_Sc_Books"].ToString(), new BooksListViewModel(_mainContainer, _bookContainer, _servicesContainer)),
                 new MenuItem(_localization["m_Sc_Cities"].ToString(), new CitiesListViewModel(_mainContainer, _servicesContainer)),
-                new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_mainContainer, _servicesContainer))
+                new MenuItem(_localization["m_Sc_Countries"].ToString(), new CountriesListViewModel(_mainContainer, _servicesContainer)),
+                new MenuItem(_localization["m_Sc_Languages"].ToString(), new LanguageListViewModel(_mainContainer, _servicesContainer))
             };
         }
 

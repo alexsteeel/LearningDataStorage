@@ -48,6 +48,10 @@
                 <local:CountriesListView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type local:LanguageListViewModel}">
+                <local:LanguageListView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 
