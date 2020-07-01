@@ -18,3 +18,6 @@ Project setup:
 2. Open the project folder Migrations, migration InitDatabase, method Up. Specify the database name in the value for the local variable dbName, the path to the folder with file tables in the local variable fileTablesPath.
 3. Check if FileStream is enabled on the installed SQL Server. Instruction [here](https://docs.microsoft.com/en-us/sql/relational-databases/blob/enable-and-configure-filestream?view=sql-server-ver15)
 4. Open the Package Manager Console and migrate using the Update-Database command.
+
+
+Upd: развитие проекта остановлено, так как открыл для себя метод Zettelkasten и реализующую его программу TheBrain, которая полностью покрывает потребности по систематизации справочной информации. Идея сбора отзывов и оценок книг с разных сайтов вынесена в новый проект [BookAggregator](https://github.com/alexsteeel/BookAggregator).
